@@ -21,7 +21,7 @@ class LocationList extends React.Component<LocationListProps, LocationListState>
     }
 
     async componentDidMount() {
-        const data = await fetch("/get_food");
+        const data = await fetch("/food");
         const locations = await data.json();
         this.setState({ locations });
     }
