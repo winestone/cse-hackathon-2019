@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "tslint -c tslint.json 'src/**/*.ts' 'src/**/*.tsx'",
     "back:build": "tsc",
-    "back:run": "node sdist/index.js",
+    "back:run": "node sdist/backend/index.js",
     "front:build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
