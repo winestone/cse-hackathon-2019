@@ -25,6 +25,7 @@ import LocationMapStyle from "./LocationMapStyle";
         center: { lat, lng },
         zoom: 13,
         styles: LocationMapStyle,
+        disableDefaultUI: true,
     });
 };
 
