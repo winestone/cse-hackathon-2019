@@ -7,12 +7,15 @@ import Button from "react-bootstrap/Button";
 import SignUpForm from "./SignUpForm";
 import LoginForm from "./LoginForm";
 
+import * as common from "../common/common";
+
 interface AppProps { };
 
 interface AppState {
     showForm: boolean;
     signedIn: boolean;
     content: AppContent;
+    location: common.Location | null;
 };
 
 type AppContent =
@@ -29,6 +32,7 @@ class App extends React.Component<AppProps, AppState> {
             showForm: false,
             signedIn: false,
             content: "list",
+            location: null,
         };
 
         this.appNav = this.appNav.bind(this);
@@ -90,9 +94,9 @@ class App extends React.Component<AppProps, AppState> {
                     null
                 );
 
-            default:
-                console.log("UNKNOWN CONTENT TYPE:", this.state.content);
-                return null;
+            // default:
+            //     console.log("UNKNOWN CONTENT TYPE:", this.state.content);
+            //     return null;
         }
     }
 

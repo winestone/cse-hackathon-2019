@@ -48,9 +48,6 @@ class LoginForm extends React.Component {
     render() {
         return (
             <Container>
-    
-    
-    
                 <Row className = "rowForm">
                     <Col></Col>
                     <Col>
