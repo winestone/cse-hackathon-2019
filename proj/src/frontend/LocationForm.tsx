@@ -15,9 +15,9 @@ class LocationForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(event : FormEvent) {
+    handleSubmit(event: FormEvent) {
         event.preventDefault();
-        
+
         const form = document.getElementById("location") as HTMLFormElement;
         const formData = new FormData(form);
 
@@ -44,57 +44,40 @@ class LocationForm extends React.Component {
 
     render() {
         return (
-            <Container>
-                <Row className = "rowForm">
-                    <Col></Col>
-                    <Col>
-                    <div id = "form">
-                    <div id = "title">Donate</div>
-                    <div id = "body">
-                        <br></br>
+            <div id="form-container">
+                <div id="form-title">DONATE</div>
+                <div id="form-body">
                     <Form
                         id="location"
                         onSubmit={this.handleSubmit}
                     >
-                        <Form.Group controlId = "description" id = "form"> 
-                            <Form.Label>
-                                <input
-                                    name="description"
-                                    type="text"
-                                    placeholder = "Donation Description"
-                                />
-                            </Form.Label>
+                        <Form.Group controlId="description" id="form">
+                            <Form.Control
+                                name="description"
+                                type="text"
+                                placeholder="Donation Description"
+                            />
                         </Form.Group>
-                        <Form.Group controlId = "image" id = "form"> 
-                            <Form.Label>
-                                <input
-                                    name="image"
-                                    type="file"
-                                    placeholder = "Location Image"
-                                />
-                            </Form.Label>
+                        <Form.Group controlId="image" id="form">
+                            <Form.Control
+                                name="image"
+                                type="file"
+                                placeholder="Location Image"
+                            />
                         </Form.Group>
-                        <Form.Group controlId = "urgency" id = "form"> 
-                            <Form.Label>
-                                <select name="urgency" defaultValue={"med"}>
-                                    <option value="low">low</option>
-                                    <option value="med">medium</option>
-                                    <option value="high">high</option>
-                                </select>
-                            </Form.Label>
+                        <Form.Group controlId="urgency" id="form">
+                            <select name="urgency" defaultValue={"med"}>
+                                <option value="low">low</option>
+                                <option value="med">medium</option>
+                                <option value="high">high</option>
+                            </select>
                         </Form.Group>
-                        <div id = "button">
-                        <Button id = "submit" type="submit">Submit</Button>
+                        <div id="button">
+                            <Button id="submit" className="btn btn-outline" type="submit">Submit</Button>
                         </div>
                     </Form>
-                    </div>
-                    </div>
-                    </Col>
-
-
-            <Col> </Col>
-            </Row> 
-            </Container>
+                </div>
+            </div>
         );
     }
 }
