@@ -1,7 +1,7 @@
 // lib/app.ts
 import express from "express";
 import path from "path";
-import {createConnection} from "typeorm";
+import * as typeorm from "typeorm";
 import {v4 as uuid} from "uuid";
 import "reflect-metadata";
 
@@ -15,7 +15,7 @@ interface Session {
   session_start: Date;
 }
 
-createConnection({
+typeorm.createConnection({
   type: "sqlite",
   database: "db.sqlite",
   entities: [Food, User],
@@ -99,14 +99,37 @@ createConnection({
     res.sendStatus(200);
   });
 
-  app.get("/food", (req, res) => {
-    
+  function foodToFoodLocation(food: Food): common.FoodLocation {
+    return {
+      id: food.id,
+      business_name: food.user.business_name,
+      location: {
+        latitude: food.user.latitude,
+        longitude: food.user.longitude,
+      },
+      description: food.description,
+      urgency: food.urgency as common.Urgency,
+      image: food.image,
+    };
+  }
+
+  app.get("/food", async (req, res) => {
+    res.json((await food_repo.find({end_time: typeorm.MoreThan(new Date())})).map(foodToFoodLocation));
   });
 
   app.get("/food/self", async (req, res) => {
     const session = getLiveSession(req.cookies.session_uuid);
     if (session === null) { res.sendStatus(404); return; }
-    res.json(await food_repo.find({user: { id: session.user_id }}));
+    const user = user_repo.findOne(session.user_id);
+    if (user === null) {
+      delete sessions[req.cookies.session_uuid];
+      res.sendStatus(404);
+      return;
+    }
+    res.json(
+      (await food_repo.find({user: { id: session.user_id }, end_time: typeorm.MoreThan(new Date())}))
+        .map(foodToFoodLocation)
+    );
   });
 
   app.post("/food/cancel", async (req, res) => {

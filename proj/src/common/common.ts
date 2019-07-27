@@ -1,5 +1,5 @@
 
-type Urgency = "low" | "med" | "high";
+export type Urgency = "low" | "med" | "high";
 
 export interface Location {
   longitude: number;

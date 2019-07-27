@@ -32,7 +32,10 @@ export class Food {
 
   @Column()
   @Index({ unique: true })
-  start_time!: Date;
+  end_time!: Date;
+
+  @Column()
+  urgency!: string;
 
   @Column()
   description!: string;
