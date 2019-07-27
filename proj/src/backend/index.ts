@@ -8,6 +8,7 @@ import { v4 as uuid } from "uuid"
 const app: express.Application = express();
 
 type FoodLocationWithTime = common.AddFoodLocation & { time: Date };
+
 interface User {
   username: string;
   password: string;
@@ -60,8 +61,10 @@ app.post("/login", (req, res) => {
 })
 
 app.post("/register", (req, res) => {
-  
+  const newUsr:User = req;
+  users_by_username.push({newUsr.username:newUsr});
 })
+
 app.listen(8000, () => {
   console.log("Example app listening on port 8000!");
 });
