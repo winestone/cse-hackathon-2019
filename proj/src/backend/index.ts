@@ -25,24 +25,32 @@ const users_by_username: { [username: string]: User } = {};
 const sessions: { [session_uuid: string]: Session } = {};
 const food_locations: FoodLocationWithTime[] = [];
 
-function isLoggedIn(req: Request): boolean {
-  return (sessions[req.cookies.session_uuid] !== undefined)
+function isLoggedIn(req: express.Request): boolean {
+  return sessions[req.cookies.session_uuid] !== undefined;
 }
 // Returns whether registration was successful
 function registerUser(user: User): boolean {
   if ( users_by_username[user.username] === undefined ) {
     return false;
   }
-  users_by_username.push({newUsr.username:newUsr});
+  users_by_username[user.username] = user;
   return true;
 }
 
 // return session uuid
-function loginUser(username: string, password: string): string {
-  
+function loginUser(username: string, password: string): string | null {
+  const user = users_by_username[username];
+  if (user === undefined || user.password !== password) return null;
+  const session_uuid = uuid();
+  sessions[session_uuid] = {
+    session_uuid,
+    username,
+    session_start: new Date(),
+  };
+  return session_uuid;
 }
 function logoutUser(session_uuid: string) {
-  delete sessions[session_uuid]
+  delete sessions[session_uuid];
 }
 
 app.use(express.json());
@@ -63,7 +71,6 @@ function removeOldFoods() {
   const curr_time = new Date();
   curr_time.setHours(curr_time.getHours() + 4); 
   while (0 < food_locations.length && curr_time < food_locations[0].time) {
-    console.log("hi");
     food_locations.shift();
   }
 }
@@ -77,18 +84,23 @@ app.use("/static", express.static(path.join(__dirname, "../../static")));
 app.use("/dist", express.static(path.join(__dirname, "../../dist")));
 
 app.post("/login", (req, res) => {
+  // redirect to logout page 
+  if (typeof(req.body) === "object" && typeof(req.body.username) === "string" && typeof(req.body.password) === "string") {
+    const session_uuid = loginUser(req.body.username, req.body.password);
+    if (session_uuid !== null) {
+      res.cookie("session_uuid", session_uuid);
+      res.json(true);
+    }
+  }
+  res.json(false);
 });
 
 app.post("/register", (req, res) => {
-
-  const newUsr:User = req.body;
-  users_by_username.push({newUsr.username:newUsr});
-  res.json(true);
+  res.json(registerUser(req.body));
 });
 
 app.get("/logout", (req, res) => {
   logoutUser(req.cookies.session_uuid)
-  // redirect to logout page 
 });
 
 app.listen(8000, () => {
