@@ -47,6 +47,15 @@ typeorm.createConnection({
   app.post("/register", (req, res) => {
     if (!common.validateUser(req.body)) { console.log(req.body); res.json(false); return; }
     console.log(req.body);
+    const chkuser = user_repo.findOne({username: req.body.username});
+    console.log("poop" + chkuser);
+    console.log("ahahahah");
+    const chkcompany = user_repo.findOne({business_name: req.body.business_name});
+    console.log("poop" + chkcompany);
+    if (chkuser === undefined && chkcompany === undefined) {
+      res.json(false);
+      return;
+    }
     const user = new User();
     user.username = req.body.username;
     user.password = req.body.password;
@@ -58,7 +67,7 @@ typeorm.createConnection({
   });
 
   app.post("/login", async (req, res) => {
-    if (!common.validateUserAndPass(req)) { res.json(false); return; }
+    if (!common.validateUserAndPass(req.body)) { res.json(false); return; }
     const user = await user_repo.findOne({ username: req.body.username, password: req.body.password });
     if (user === undefined) { res.json(false); return; }
     const session_uuid = uuid();
