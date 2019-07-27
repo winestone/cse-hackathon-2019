@@ -44,7 +44,7 @@ class App extends React.Component<AppProps, AppState> {
                         Donate
                     </li>
                     <li
-                        onClick={() => this.setState({ signedIn: false })}
+                        onClick={() => this.setState({ signedIn: false, content: "list" })}
                     >
                         Sign Out
                     </li>
@@ -54,7 +54,7 @@ class App extends React.Component<AppProps, AppState> {
             return (
                 <ul>
                     <li
-                        onClick={() => this.setState({ signedIn: true })}
+                        onClick={() => this.setState({ content: "signin" })}
                     >
                         Sign In
                     </li>
