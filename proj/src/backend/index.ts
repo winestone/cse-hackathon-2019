@@ -2,6 +2,7 @@
 import express from "express";
 import path from "path";
 import * as common from "../common/common"
+import { stringify } from "querystring";
 
 // Create a new express application instance
 const app: express.Application = express();
@@ -22,7 +23,7 @@ app.get("/add_food", (req, res) => {
 });
 
 app.get("/get_food", (req, res) => {
-  
+  res.send(JSON.stringify(food_locations))
 });
 
 app.use("/static", express.static(path.join(__dirname, "../../static")));
