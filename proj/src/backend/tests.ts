@@ -30,7 +30,7 @@ function requestPromise(options: request.RequiredUriUrl & request.CoreOptions): 
 
   {
     console.log("Registering user1,pass1,bus12 should fail");
-    const [err, res, body] = await request({
+    const [err, res, body] = await requestPromise({
       uri: "http://localhost:8000/register",
       method: "POST",
       json: {
@@ -48,7 +48,7 @@ function requestPromise(options: request.RequiredUriUrl & request.CoreOptions): 
 
   {
     console.log("Registering user12,pass1,bus1 should fail");
-    const [err, res, body] = await request({
+    const [err, res, body] = await requestPromise({
       uri: "http://localhost:8000/register",
       method: "POST",
       json: {
@@ -66,7 +66,7 @@ function requestPromise(options: request.RequiredUriUrl & request.CoreOptions): 
 
   {
     console.log("Login user1,pass1"); 
-    const [err, res, body] = await request({
+    const [err, res, body] = await requestPromise({
       uri: "http://localhost:8000/login",
       method: "POST",
       json: {

@@ -44,12 +44,15 @@ typeorm.createConnection({
     res.send("Hello World!");
   });
 
-  app.post("/register", (req, res) => {
-    if (!common.validateUser(req.body)) { console.log(req.body); res.json(false); return; }
-    console.log(req.body);
-    const chkuser = user_repo.findOne({username: req.body.username});
-    const chkcompany = user_repo.findOne({business_name: req.body.business_name});
-    if (chkuser !== undefined || chkcompany !== undefined) {
+  app.post("/register", async (req, res) => {
+    if (!common.validateUser(req.body)) { console.log("/register failed to validate"); res.json(false); return; }
+    if (await user_repo.findOne({username: req.body.username}) !== undefined) {
+      console.log("/register duplicate username");
+      res.json(false);
+      return;
+    }
+    if (await user_repo.findOne({business_name: req.body.business_name}) !== undefined) {
+      console.log("/register duplicate username");
       res.json(false);
       return;
     }
@@ -59,15 +62,14 @@ typeorm.createConnection({
     user.business_name = req.body.business_name;
     user.latitude = req.body.location.latitude;
     user.longitude = req.body.location.longitude;
-    user_repo.save(user);
-    console.log("ahahahahh");
+    await user_repo.save(user);
     res.json(true);
   });
 
   app.post("/login", async (req, res) => {
-    if (!common.validateUserAndPass(req.body)) { res.json(false); return; }
+    if (!common.validateUserAndPass(req.body)) { console.log("/login failed to validate"); res.json(false); return; }
     const user = await user_repo.findOne({ username: req.body.username, password: req.body.password });
-    if (user === undefined) { res.json(false); return; }
+    if (user === undefined) { console.log("/login unable to find user with given user and pass"); res.json(false); return; }
     const session_uuid = uuid();
     res.cookie("session_uuid", session_uuid, {httpOnly:false});
     res.json(true);
