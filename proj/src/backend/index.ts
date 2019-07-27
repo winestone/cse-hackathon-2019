@@ -72,6 +72,11 @@ typeorm.createConnection({
     if (user === undefined) { console.log("/login unable to find user with given user and pass"); res.json(false); return; }
     const session_uuid = uuid();
     res.cookie("session_uuid", session_uuid, {httpOnly: false});
+    sessions[session_uuid] = {
+      session_uuid,
+      user_id: user.id,
+      session_start: new Date(),
+    };
     res.json(true);
   });
 
@@ -84,11 +89,12 @@ typeorm.createConnection({
   });
 
   app.post("/food", async (req, res) => {
-    if (! common.validateFoodLocation(req.body)) {
+    if (! common.validateAddFoodLocation(req.body)) {
       res.sendStatus(400);
       return;
     }
-    const session = getLiveSession(req.cookies.session_uuid);
+    const session = getLiveSession(req.cookies && req.cookies.session_uuid);
+    console.log("/food ", req.cookies, req.cookies && req.cookies.session_uuid);
     if (session === null) {
       res.sendStatus(403);
       return;
