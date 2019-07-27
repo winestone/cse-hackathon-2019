@@ -38,14 +38,14 @@ aside {
     padding: 30px;
     top: 0px;
     right: 0px;
-    width: 270px;
+    width: 350px;
 }
 
 aside nav {
     margin-bottom: 24px;
 }
 
-#login{
+#nav-login{
     font-family:$font-body;
     color:$accent;
     text-transform:uppercase;
@@ -73,4 +73,12 @@ aside nav {
     
   }
   
-  
+#top-buttons{
+    list-style-type:none;
+    display:flex;
+    justify-content:space-evenly;
+}
+
+#top-buttons li {
+    display:inline;
+}

@@ -57,16 +57,16 @@ class App extends React.Component<AppProps, AppState> {
             );
         } else {
             return (
-                <ul>
+                <ul id = "top-buttons">
                     <li
                         onClick={() => this.setState({ content: "signin" })}
                     >
-                        Sign In
+                        <Button className = "btn btn-outline">SIGN IN</Button>
                     </li>
                     <li
                         onClick={() => this.setState({ content: "signup" })}
                     >
-                        Sign Up
+                        <Button className = "btn btn-outline">REGISTER </Button>
                     </li>
                 </ul>
             );
