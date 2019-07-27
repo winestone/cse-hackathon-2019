@@ -19,7 +19,7 @@ class LoginForm extends React.Component {
         const form = document.getElementById("login") as HTMLFormElement;
         const formData = new FormData(form);
     
-        const username = String(formData.get("username") || "");
+        const username = String(formData.get("user-name") || "");
         const password = String(formData.get("password") || "");
     
         const data: common.UserAndPass = {
@@ -48,9 +48,6 @@ class LoginForm extends React.Component {
     render() {
         return (
             <Container>
-    
-    
-    
                 <Row className = "rowForm">
                     <Col></Col>
                     <Col>

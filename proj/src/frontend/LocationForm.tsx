@@ -56,26 +56,6 @@ class LocationForm extends React.Component {
                         id="location"
                         onSubmit={this.handleSubmit}
                     >
-                        <Form.Group controlId = "name">
-                            <Form.Label>
-                                <input
-                                    name="company-name"
-                                    type="text"
-                                    placeholder = "Company Name"
-                                />
-                            </Form.Label>
-                        </Form.Group>
-
-                        <Form.Group controlId = "address">
-                            <Form.Label>
-                                <input
-                                    name="company-address"
-                                    type="text" 
-                                    placeholder = "Company Address"
-                                />
-                            </Form.Label>
-                        </Form.Group> 
-
                         <Form.Group controlId = "description" id = "form"> 
                             <Form.Label>
                                 <input
@@ -83,6 +63,24 @@ class LocationForm extends React.Component {
                                     type="text"
                                     placeholder = "Donation Description"
                                 />
+                            </Form.Label>
+                        </Form.Group>
+                        <Form.Group controlId = "image" id = "form"> 
+                            <Form.Label>
+                                <input
+                                    name="image"
+                                    type="file"
+                                    placeholder = "Location Image"
+                                />
+                            </Form.Label>
+                        </Form.Group>
+                        <Form.Group controlId = "urgency" id = "form"> 
+                            <Form.Label>
+                                <select name="urgency">
+                                    <option value="low">low</option>
+                                    <option value="med">medium</option>
+                                    <option value="high">high</option>
+                                </select>
                             </Form.Label>
                         </Form.Group>
                         <div id = "button">

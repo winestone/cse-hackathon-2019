@@ -1,18 +1,13 @@
 import React from "react";
 
-import LocationForm from "./LocationForm";
 import LocationList from "./LocationList";
 import LocationMap from "./LocationMap";
 
-<<<<<<< HEAD
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-=======
 import SignUpForm from "./SignUpForm";
 import LoginForm from "./LoginForm";
->>>>>>> da053ebdac7fd347b41aa8e9811937703ca05f3d
+
+import * as common from "../common/common";
 
 interface AppProps { };
 
@@ -20,6 +15,7 @@ interface AppState {
     showForm: boolean;
     signedIn: boolean;
     content: AppContent;
+    location: common.Location | null;
 };
 
 type AppContent =
@@ -36,6 +32,7 @@ class App extends React.Component<AppProps, AppState> {
             showForm: false,
             signedIn: false,
             content: "list",
+            location: null,
         };
 
         this.appNav = this.appNav.bind(this);
@@ -47,11 +44,11 @@ class App extends React.Component<AppProps, AppState> {
                 <ul>
                     <li
                         onClick={() => this.setState({ content: "donate" })}
-                    >
+                    >   
                         Donate
                     </li>
                     <li
-                        onClick={() => this.setState({ signedIn: false })}
+                        onClick={() => this.setState({ signedIn: false, content: "list" })}
                     >
                         Sign Out
                     </li>
@@ -61,7 +58,7 @@ class App extends React.Component<AppProps, AppState> {
             return (
                 <ul>
                     <li
-                        onClick={() => this.setState({ signedIn: true })}
+                        onClick={() => this.setState({ content: "signin" })}
                     >
                         Sign In
                     </li>
@@ -94,12 +91,12 @@ class App extends React.Component<AppProps, AppState> {
 
             case "donate":
                 return (
-                    <LocationForm />
+                    null
                 );
 
-            default:
-                console.log("UNKNOWN CONTENT TYPE:", this.state.content);
-                return null;
+            // default:
+            //     console.log("UNKNOWN CONTENT TYPE:", this.state.content);
+            //     return null;
         }
     }
 
@@ -108,18 +105,18 @@ class App extends React.Component<AppProps, AppState> {
             <main>
                 <LocationMap />
                 <aside>
-                    <nav id = "login">
+                    <nav id="nav-login">
+                        {/*
                             <Button type = "button" className = "btn btn-outline">LOGIN</Button>
                             <Button type = "button" className = "btn btn-outline">SIGN UP   </Button>
-                    <nav>
+                        */}
                         {this.appNav()}
                     </nav>
                     <div>
                         {this.appBody()}
                     </div>
                 </aside>
-                {this.state.showForm && <LocationForm />}
-            </main >
+            </main>
         );
     }
 }
