@@ -35,6 +35,10 @@ class App extends React.Component<AppProps, AppState> {
         };
 
         this.appNav = this.appNav.bind(this);
+
+        this.setLoggedIn = this.setLoggedIn.bind(this);
+        this.logOut = this.logOut.bind(this);
+        this.setContent = this.setContent.bind(this);
     }
 
     isLoggedIn() {
@@ -53,18 +57,28 @@ class App extends React.Component<AppProps, AppState> {
         this.setState({ signedIn, content });
     }
 
+    logOut() {
+        fetch("/logout", { method: "GET", credentials: "include" });
+        this.setLoggedIn(false);
+
+        if (this.isLoggedIn()) {
+            // If the cookie is still here for whatever reason nuke it
+            document.cookie += "session_uuid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        }
+    }
+
+    setContent(content: AppContent) {
+        return () => this.setState({ content });
+    }
+
     appNav() {
         if (this.state.signedIn) {
             return (
                 <ul>
-                    <li
-                        onClick={() => this.setState({ content: "donate" })}
-                    >   
+                    <li onClick={this.setContent("donate")}>   
                         Donate
                     </li>
-                    <li
-                        onClick={() => this.setState({ signedIn: false, content: "list" })}
-                    >
+                    <li onClick={this.logOut}>
                         Sign Out
                     </li>
                 </ul>
@@ -72,14 +86,10 @@ class App extends React.Component<AppProps, AppState> {
         } else {
             return (
                 <ul>
-                    <li
-                        onClick={() => this.setState({ content: "signin" })}
-                    >
+                    <li onClick={this.setContent("signin")}>
                         Sign In
                     </li>
-                    <li
-                        onClick={() => this.setState({ content: "signup" })}
-                    >
+                    <li onClick={this.setContent("signup")}>
                         Sign Up
                     </li>
                 </ul>
