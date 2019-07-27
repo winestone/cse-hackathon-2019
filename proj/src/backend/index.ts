@@ -44,8 +44,20 @@ createConnection({
     res.send("Hello World!");
   });
 
+  console.log("asfddsfs");
   app.post("/register", (req, res) => {
-
+    console.log("wtf");
+    console.log(req.body, "Asdfsfdfsf");
+    if (!common.validateUser(req.body)) { console.log(req.body); res.json(false); return; }
+    console.log(req.body);
+    const user = new User();
+    user.username = req.body.username;
+    user.password = req.body.password;
+    user.business_name = req.body.business_name;
+    user.latitude = req.body.location.latitude;
+    user.longitude = req.body.location.longitude;
+    user_repo.save(user);
+    res.json(true);
   });
 
   app.post("/login", async (req, res) => {
@@ -53,7 +65,7 @@ createConnection({
     const user = await user_repo.findOne({ username: req.body.username, password: req.body.password });
     const session_uuid = uuid();
     res.cookie("session_uuid", session_uuid);
-    res.json(true);
+    await res.json(true);
   });
 
   app.get("/logout", (req, res) => {
