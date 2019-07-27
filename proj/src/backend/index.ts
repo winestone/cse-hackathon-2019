@@ -26,7 +26,10 @@ const sessions: { [session_uuid: string]: Session } = {};
 const food_locations: FoodLocationWithTime[] = [];
 
 function isLoggedIn(req: Request): boolean {
-
+  if(sessions[req.cookies.session_uuid] !== undefined){
+    return true;
+  }
+  return false;
 }
 // Returns whether registration was successful
 function registerUser(user: User): boolean {
@@ -36,6 +39,7 @@ function registerUser(user: User): boolean {
   users_by_username.push({newUsr.username:newUsr});
   return true;
 }
+
 // return session uuid
 function loginUser(username: string, password: string): string {
   
