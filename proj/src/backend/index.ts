@@ -26,11 +26,15 @@ const sessions: { [session_uuid: string]: Session } = {};
 const food_locations: FoodLocationWithTime[] = [];
 
 function isLoggedIn(req: Request): boolean {
-  
+
 }
 // Returns whether registration was successful
 function registerUser(user: User): boolean {
-  
+  if ( users_by_username[user.username] === undefined ) {
+    return false;
+  }
+  users_by_username.push({newUsr.username:newUsr});
+  return true;
 }
 // return session uuid
 function loginUser(username: string, password: string): string {
@@ -76,9 +80,7 @@ app.post("/login", (req, res) => {
 })
 
 app.post("/register", (req, res) => {
-  const newUsr:User = req.body;
-  users_by_username.push({newUsr.username:newUsr});
-  res.json(true);
+  res.json(registerUser(req));
 })
 
 app.listen(8000, () => {
