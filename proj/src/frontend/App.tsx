@@ -7,6 +7,7 @@ import LocationMap from "./LocationMap";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 
 interface AppProps { };
 
@@ -28,11 +29,9 @@ class App extends React.Component<AppProps, AppState> {
             <main>
                 <LocationMap/>
                 <aside>
-                    <nav>
-                        <ul>
-                            <li>Sign In</li>
-                            <li>Sign Up</li>
-                        </ul>
+                    <nav id = "login">
+                            <Button type = "button" className = "btn btn-outline">LOGIN</Button>
+                            <Button type = "button" className = "btn btn-outline">SIGN UP   </Button>
                     </nav>
                     <div>
                         <LocationList />

@@ -1,4 +1,4 @@
-$font-title: Helvetica, sans-serif; 
+$font-body: 'Montserrat', sans-serif; 
 $accent: #ff9e67;
 $primary: #4b96f3;
 $back: #242f3e;
@@ -11,6 +11,7 @@ $green: #4db546;
     height:50px;
     text-align:center;
     vertical-align:center;
+    font-family:$font-body;
 }
 .rowForm{
     color:$back;
@@ -19,10 +20,12 @@ $green: #4db546;
 #button{
     align-content:center;
 }
+/*
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited, .btn-primary:focus {
     background-color: $accent !important;
     border-color: $accent !important;
-}
+}*/
+
 #body{
     background-color:white;
     align-content:center;
@@ -32,13 +35,48 @@ aside {
     position: fixed;
     max-height: 100%;
     height: 100%;
-    padding: 48px;
+    padding: 30px;
     top: 0px;
     right: 0px;
-    width: 380px;
+    width: 270px;
 }
 
 aside nav {
     margin-bottom: 24px;
-    background: #FFF;
 }
+
+#login{
+    font-family:$font-body;
+    color:$accent;
+    text-transform:uppercase;
+    display:flex;
+    justify-content:space-evenly;    
+    
+}
+
+.btn-outline {
+    color: $accent;
+    background-color: transparent;
+    border-color: $accent;
+    border-color:$accent;
+  }
+  
+  .btn-outline {
+    color: $accent;
+    background-color: transparent;
+    border-color: $accent;
+    font-weight: bold;
+    border-radius: 0;
+  }
+  
+  .btn-outline:hover,
+  .btn-outline:active,
+  .btn-outline:focus,
+  .btn-outline.active {
+    background: $accent;
+    color: #ffffff;
+    border-color: $accent;
+    
+  }
+  
+  
