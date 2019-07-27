@@ -24,6 +24,9 @@ typeorm.createConnection({
 
   const sessions: { [session_uuid: string]: Session } = {};
 
+  const food_repo = connection.getRepository(Food);
+  const user_repo = connection.getRepository(User);
+  
   const app: express.Application = express();
   app.use(express.json());
   app.use("/static", express.static(path.join(__dirname, "../../static")));
