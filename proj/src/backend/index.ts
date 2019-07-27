@@ -37,6 +37,8 @@ typeorm.createConnection({
   const food_repo = connection.getRepository(Food);
   const user_repo = connection.getRepository(User);
 
+  await presetData();
+
   const app: express.Application = express();
   app.use(express.json());
   app.use(cookieParser());
@@ -173,6 +175,40 @@ typeorm.createConnection({
     await food_repo.remove(f);
     res.sendStatus(200);
   });
+
+  async function presetData() {
+    const company = ["Unsw", "Oporto", "HighTea", "SomeCafe", "SomeBakery"]
+    const lat = -33.917329664;
+    const long = 151.225332432;
+    for (let i=0; i < 5; i++) {
+      const r = Math.random();
+      await createEntry(company[i], r+lat, r+long);
+    }
+  }
+
+  async function createEntry(name:string, lat:number, long:number) {
+    const user = new User();
+    user.username = name;
+    user.password = "123";
+    user.business_name = name; 
+    user.latitude = lat;
+    user.longitude = long;
+    await user_repo.save(user)
+
+    const food = new Food();
+    food.user = user;
+    food.description = "Bread";
+    food.image = "";
+    food.urgency = "low";
+    food.end_time = new Date();
+    const URGENCY_HOURS = {
+      low: 4,
+      med: 2,
+      high: 1,
+    };
+    food.end_time.setHours(food.end_time.getHours() + URGENCY_HOURS["low"]);
+    await food_repo.save(food);
+  }
 
   app.listen(8000, () => {
     console.log("Example app listening on port 8000!");
