@@ -10,59 +10,59 @@ function requestPromise(options: request.RequiredUriUrl & request.CoreOptions): 
 }
 
 (async () => {
-  // {
-  //   console.log("Registering user1,pass1,bus1");
-  //   const [err, res, body] = await requestPromise({
-  //     uri: "http://localhost:8000/register",
-  //     method: "POST",
-  //     json: {
-  //       username: "user1",
-  //       password: "pass1",
-  //       business_name: "bus1",
-  //       location: {
-  //         latitude: 55,
-  //         longitude: 22,
-  //       },
-  //     } as common.User,
-  //   });
-  //   console.assert(body);
-  // }
+  {
+    console.log("Registering user1,pass1,bus1");
+    const [err, res, body] = await requestPromise({
+      uri: "http://localhost:8000/register",
+      method: "POST",
+      json: {
+        username: "user1",
+        password: "pass1",
+        business_name: "bus1",
+        location: {
+          latitude: 55,
+          longitude: 22,
+        },
+      } as common.User,
+    });
+    console.assert(body);
+  }
 
-  // {
-  //   console.log("Registering user1,pass1,bus12 should fail");
-  //   const [err, res, body] = await requestPromise({
-  //     uri: "http://localhost:8000/register",
-  //     method: "POST",
-  //     json: {
-  //       username: "user1",
-  //       password: "pass1",
-  //       business_name: "bus12",
-  //       location: {
-  //         latitude: 55,
-  //         longitude: 22,
-  //       },
-  //     } as common.UserAndPass,
-  //   });
-  //   console.assert(!body);
-  // }
+  {
+    console.log("Registering user1,pass1,bus12 should fail");
+    const [err, res, body] = await requestPromise({
+      uri: "http://localhost:8000/register",
+      method: "POST",
+      json: {
+        username: "user1",
+        password: "pass1",
+        business_name: "bus12",
+        location: {
+          latitude: 55,
+          longitude: 22,
+        },
+      } as common.UserAndPass,
+    });
+    console.assert(!body);
+  }
 
-  // {
-  //   console.log("Registering user12,pass1,bus1 should fail");
-  //   const [err, res, body] = await requestPromise({
-  //     uri: "http://localhost:8000/register",
-  //     method: "POST",
-  //     json: {
-  //       username: "user12",
-  //       password: "pass1",
-  //       business_name: "bus1",
-  //       location: {
-  //         latitude: 55,
-  //         longitude: 22,
-  //       },
-  //     } as common.UserAndPass,
-  //   });
-  //   console.assert(!body);
-  // }
+  {
+    console.log("Registering user12,pass1,bus1 should fail");
+    const [err, res, body] = await requestPromise({
+      uri: "http://localhost:8000/register",
+      method: "POST",
+      json: {
+        username: "user12",
+        password: "pass1",
+        business_name: "bus1",
+        location: {
+          latitude: 55,
+          longitude: 22,
+        },
+      } as common.UserAndPass,
+    });
+    console.assert(!body);
+  }
 
   const jar = request.jar();
 
