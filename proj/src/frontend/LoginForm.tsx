@@ -60,8 +60,18 @@ class LoginForm extends React.Component {
                         </Form.Group>
     
                         <Form.Group controlId = "password">
+<<<<<<< HEAD
                             <Form.Label> Password </Form.Label>
                                 <Form.Control type = "password" name = "password" placeholder = "Password"></Form.Control>
+=======
+                            <Form.Label>
+                                <input
+                                    name="password"
+                                    type="password"
+                                    placeholder = "Password"
+                                />
+                            </Form.Label>
+>>>>>>> ec5e21a7b90137c0191363cf91c96e830e9df7aa
                         </Form.Group> 
     
                         

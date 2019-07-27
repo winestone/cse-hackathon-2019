@@ -87,6 +87,7 @@ typeorm.createConnection({
     const session_uuid = req.cookies.session_uuid;
     if (!validateLiveSession(session_uuid)) {
       delete sessions[session_uuid];
+      res.clearCookie('session_uuid');
     }
     res.sendStatus(200);
   });

@@ -13,7 +13,6 @@ import * as common from "../common/common";
 interface AppProps { };
 
 interface AppState {
-    showForm: boolean;
     signedIn: boolean;
     content: AppContent;
     location: common.Location | null;
@@ -30,27 +29,56 @@ class App extends React.Component<AppProps, AppState> {
         super(props);
 
         this.state = {
-            showForm: false,
-            signedIn: false,
+            signedIn: this.isLoggedIn(),
             content: "list",
             location: null,
         };
 
         this.appNav = this.appNav.bind(this);
+
+        this.setLoggedIn = this.setLoggedIn.bind(this);
+        this.logOut = this.logOut.bind(this);
+        this.setContent = this.setContent.bind(this);
+    }
+
+    isLoggedIn() {
+        return document.cookie
+            .split(";")
+            .map(x => x.split("="))
+            .some(([key]) => key === "session_uuid");
+    }
+
+    setLoggedIn(signedIn: boolean) {
+        const content =
+            signedIn
+                ? "donate"
+                : "list";
+
+        this.setState({ signedIn, content });
+    }
+
+    logOut() {
+        fetch("/logout", { method: "GET", credentials: "include" });
+        this.setLoggedIn(false);
+
+        if (this.isLoggedIn()) {
+            // If the cookie is still here for whatever reason nuke it
+            document.cookie += "session_uuid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        }
+    }
+
+    setContent(content: AppContent) {
+        return () => this.setState({ content });
     }
 
     appNav() {
         if (this.state.signedIn) {
             return (
                 <ul>
-                    <li
-                        onClick={() => this.setState({ content: "donate" })}
-                    >   
+                    <li onClick={this.setContent("donate")}>   
                         Donate
                     </li>
-                    <li
-                        onClick={() => this.setState({ signedIn: false, content: "list" })}
-                    >
+                    <li onClick={this.logOut}>
                         Sign Out
                     </li>
                 </ul>
