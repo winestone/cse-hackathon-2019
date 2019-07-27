@@ -16,7 +16,8 @@ app.get("/", (req, res) => {
 
 app.get("/add_food", (req, res) => {
   console.log(req.body);
-  const x: FoodLocationWithTime = req.body;
+  const x: FoodLocationWithTime = JSON.parse(req.body);
+  x.time = new Date();
   food_locations.push(x);
   res.send("Hello World!");
 });
