@@ -8,14 +8,22 @@ $green: #4db546;
 #title{
     background-color:$accent;
     color:white;
+    height:50px;
+    text-align:center;
+    vertical-align:center;
 }
 .rowForm{
     color:$back;
 }
 
 #button{
-    display:inline-block;
+    align-content:center;
 }
-#submit{
-    background-color:$accent;
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited, .btn-primary:focus {
+    background-color: $accent !important;
+    border-color: $accent !important;
+}
+#body{
+    background-color:white;
+    align-content:center;
 }

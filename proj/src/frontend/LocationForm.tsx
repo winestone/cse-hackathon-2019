@@ -46,54 +46,58 @@ class LocationForm extends React.Component {
     render() {
         return (
             <Container>
-                <Row></Row>
-                <Row>
-                <Col></Col>
-                <Col id = "title">Donate</Col>
-                <Col></Col>
-                </Row>
+
+
+
                 <Row className = "rowForm">
                     <Col></Col>
                     <Col>
-            <Form
-                id="location"
-                onSubmit={this.handleSubmit}
-            >
-                <Form.Group controlId = "name">
-                <Form.Label>
-                    Company Name
-                    <input
-                        name="company-name"
-                        type="text"
-                    />
-                </Form.Label>
+                    <div id = "form">
+                    <div id = "title">Donate</div>
+                    <div id = "body">
+                        <br></br>
+                    <Form
+                        id="location"
+                        onSubmit={this.handleSubmit}
+                    >
+                        <Form.Group controlId = "name">
+                            <Form.Label>
+                                <input
+                                    name="company-name"
+                                    type="text"
+                                    placeholder = "Company Name"
+                                />
+                            </Form.Label>
+                        </Form.Group>
 
-                </Form.Group>
+                        <Form.Group controlId = "address">
+                            <Form.Label>
+                                <input
+                                    name="company-address"
+                                    type="text" 
+                                    placeholder = "Company Address"
+                                />
+                            </Form.Label>
+                        </Form.Group> 
 
-                <Form.Group controlId = "address">
-                <Form.Label>
-                    Company Address
-                    <input
-                        name="company-address"
-                        type="text"
-                    />
-                </Form.Label>
-                </Form.Group> 
+                        <Form.Group controlId = "description" id = "form"> 
+                            <Form.Label>
+                                <input
+                                    name="description"
+                                    type="text"
+                                    placeholder = "Donation Description"
+                                />
+                            </Form.Label>
+                        </Form.Group>
+                        <div id = "button">
+                        <Button id = "submit">Submit</Button>
+                        </div>
+                    </Form>
+                    </div>
+                    </div>
+                    </Col>
 
-                <Form.Group controlId = "description" id = "form"> 
-                <Form.Label>
-                    Donation Description
-                    <input
-                        name="description"
-                        type="text"
-                    />
-                </Form.Label>
-                </Form.Group>
-                <div id = "button">
-                <Button id = "submit">Submit</Button>
-                </div>
-            </Form>
-            </Col>
+
             <Col> </Col>
             </Row> 
             </Container>
