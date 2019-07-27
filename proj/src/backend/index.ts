@@ -57,19 +57,23 @@ typeorm.createConnection({
 
   });
 
-  app.get("/food/self", (req, res) => {
+  app.get("/food/self", async (req, res) => {
     if (typeof(req.cookies.session_uuid) == "string") {
-      const user = sessions[req.cookies.session_uuid]
+      const user = await sessions[req.cookies.session_uuid]
       if (user) {
-        res.json(food_repo.find({id: user.id}))
+        await res.json(food_repo.find({id: user.id}))
       }
     }
-    res.sendStatus(404)
+    await res.sendStatus(404)
   });
 
   app.post("/food/cancel", async (req, res) => {
-    if (validateFoodCancel(req.body)) {
-      await food_repo.remove(req.body.id);
+    if (common.validateFoodCancel(req.body)) {
+      const f = await food_repo.findOne(req.body.id)
+      if (f) {
+        await food_repo.remove(f);
+      }
+      
     }
   });
 
