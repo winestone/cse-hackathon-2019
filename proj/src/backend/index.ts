@@ -22,10 +22,12 @@ typeorm.createConnection({
   logging: false
 }).then(async connection => {
 
-  // Create a new express application instance
-  const app: express.Application = express();
-
   const sessions: { [session_uuid: string]: Session } = {};
+
+  const app: express.Application = express();
+  app.use(express.json());
+  app.use("/static", express.static(path.join(__dirname, "../../static")));
+  app.use("/dist", express.static(path.join(__dirname, "../../dist")));
 
   function isLoggedIn(req: express.Request): boolean {
     return sessions[req.cookies.session_uuid] !== undefined;
@@ -55,8 +57,6 @@ typeorm.createConnection({
     delete sessions[session_uuid];
   }
 
-  app.use(express.json());
-
   app.get("/", (req, res) => {
     res.send("Hello World!");
   });
@@ -81,9 +81,6 @@ typeorm.createConnection({
     removeOldFoods();
     res.json(food_locations);
   });
-
-  app.use("/static", express.static(path.join(__dirname, "../../static")));
-  app.use("/dist", express.static(path.join(__dirname, "../../dist")));
 
   app.post("/login", (req, res) => {
     if (typeof(req.body) === "object" && typeof(req.body.username) === "string" && typeof(req.body.password) === "string") {

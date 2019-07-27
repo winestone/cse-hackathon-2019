@@ -1,4 +1,6 @@
 
+type Urgency = "low" | "med" | "high";
+
 export interface Location {
   longitude: string,
   latitude: string,
@@ -26,6 +28,7 @@ export interface FoodLocation {
   business_name: string;
   location: Location;
   description: string;
+  urgency: Urgency;
   image: string; // base64 encoded png/jpeg?
 }
 
@@ -56,3 +59,10 @@ export interface FoodCancel {
     - body: FoodCancel
     - returns: nothing
 */
+
+function validateUrgency(x: any): x is Urgency {
+  return ["low", "med", "high"].includes(x);
+}
+function validateLocation(x: any): x is Location {
+  
+}
