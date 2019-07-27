@@ -28,6 +28,7 @@ typeorm.createConnection({
   function validateLiveSession(x: any): x is string {
     return typeof x === "string" && typeof sessions[x] !== "undefined";
   }
+
   function getLiveSession(session_uuid: any): Session | null {
     return validateLiveSession(session_uuid) ? sessions[session_uuid] : null;
   }
@@ -71,7 +72,7 @@ typeorm.createConnection({
     const user = await user_repo.findOne({ username: req.body.username, password: req.body.password });
     if (user === undefined) { console.log("/login unable to find user with given user and pass"); res.json(false); return; }
     const session_uuid = uuid();
-    res.cookie("session_uuid", session_uuid, {httpOnly: false});
+    res.cookie('session_uuid', session_uuid, {httpOnly: false});
     sessions[session_uuid] = {
       session_uuid,
       user_id: user.id,
@@ -89,6 +90,7 @@ typeorm.createConnection({
   });
 
   app.post("/food", async (req, res) => {
+    console.log("yes");
     if (! common.validateAddFoodLocation(req.body)) {
       res.sendStatus(400);
       return;
@@ -99,10 +101,10 @@ typeorm.createConnection({
       res.sendStatus(403);
       return;
     }
-    // const user = user_repo.find({user: { id: session.user_id}});
-
-    const user = new User();
-    user.id = session.user_id;
+    const user = await user_repo.findOne(sessions[session.session_uuid].user_id);
+    if (user === undefined) {
+      return;
+    }
     const food = new Food();
     food.user = user;
     food.description = req.body.description;
