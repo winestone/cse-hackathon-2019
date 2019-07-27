@@ -26,6 +26,8 @@ import LocationMapStyle from "./LocationMapStyle";
         zoom: 13,
         styles: LocationMapStyle,
         disableDefaultUI: true,
+        gestureHandling: "greedy",
+        zoomControl: true,
     });
 };
 
