@@ -2,6 +2,7 @@ import React from "react";
 
 import LocationList from "./LocationList";
 import LocationMap from "./LocationMap";
+import LocationForm from "./LocationForm";
 
 import Button from "react-bootstrap/Button";
 import SignUpForm from "./SignUpForm";
@@ -90,13 +91,7 @@ class App extends React.Component<AppProps, AppState> {
                 );
 
             case "donate":
-                return (
-                    null
-                );
-
-            // default:
-            //     console.log("UNKNOWN CONTENT TYPE:", this.state.content);
-            //     return null;
+                return <LocationForm />;
         }
     }
 

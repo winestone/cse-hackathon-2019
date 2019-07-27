@@ -21,14 +21,14 @@ class LocationForm extends React.Component {
         const form = document.getElementById("location") as HTMLFormElement;
         const formData = new FormData(form);
 
-        const name = String(formData.get("company-name") || "");
-        const address = String(formData.get("company-address") || "");
         const description = String(formData.get("description") || "");
+        const image = ""; // idk
+        const urgency = formData.get("urgency") as common.Urgency;
 
         const data: common.AddFoodLocation = {
-            name,
-            address,
             description,
+            image,
+            urgency,
         };
 
         console.log("DATA:", data);
@@ -76,7 +76,7 @@ class LocationForm extends React.Component {
                         </Form.Group>
                         <Form.Group controlId = "urgency" id = "form"> 
                             <Form.Label>
-                                <select name="urgency">
+                                <select name="urgency" defaultValue={"med"}>
                                     <option value="low">low</option>
                                     <option value="med">medium</option>
                                     <option value="high">high</option>
