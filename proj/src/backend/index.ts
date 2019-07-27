@@ -65,9 +65,26 @@ createConnection({
   });
 
   app.post("/food", (req, res) => {
-    if (! common.validateFoodLocation(req)) return false;
-    req.body.
+    if (! common.validateFoodLocation(req.body)) {
+      res.sendStatus(400);
+      return;
+    }
+    const session = getLiveSession(req.cookies.session_uuid);
+    if (session === null) {
+      res.sendStatus(400);
+      return;
+    }
+    // const user = user_repo.find({user: { id: session.user_id}});
 
+    const user = new User();
+    user.id = session.user_id;
+    const food = new Food()
+    food.user = user;
+    food.description = req.body.description;
+    food.image = req.body.image;
+    food.end_time = new Date();
+    food_repo.save(food);
+    res.sendStatus(200);
   });
 
   app.get("/food", (req, res) => {
