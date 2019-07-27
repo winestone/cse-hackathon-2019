@@ -90,13 +90,3 @@ export function validateFoodLocation(x: any): x is FoodLocation {
 export function validateFoodCancel(x: any): x is FoodCancel {
   return (typeof(x.id) === "string");
 }
-
-export interface User {
-  username: string; 
-  password: string;
-}
-
-export interface UserAndPass{
-  username: string;
-  password: string;
-}

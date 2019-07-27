@@ -8,7 +8,6 @@ import "reflect-metadata";
 
 import * as common from "../common/common";
 import {Food, User} from "./db";
-import { string } from "prop-types";
 
 interface Session {
   session_uuid: string;
@@ -49,6 +48,15 @@ typeorm.createConnection({
     res.send("Hello World!");
   });
 
+  async function registerUser(user_details: common.User): Promise<User> {
+    const user = new User();
+    user.username = user_details.username;
+    user.password = user_details.password;
+    user.business_name = user_details.business_name;
+    user.latitude = user_details.location.latitude;
+    user.longitude = user_details.location.longitude;
+    return await user_repo.save(user);
+  }
   app.post("/register", async (req, res) => {
     if (!common.validateUser(req.body)) { console.log("/register failed to validate"); res.json(false); return; }
     if (await user_repo.findOne({username: req.body.username}) !== undefined) {
@@ -61,13 +69,7 @@ typeorm.createConnection({
       res.json(false);
       return;
     }
-    const user = new User();
-    user.username = req.body.username;
-    user.password = req.body.password;
-    user.business_name = req.body.business_name;
-    user.latitude = req.body.location.latitude;
-    user.longitude = req.body.location.longitude;
-    await user_repo.save(user);
+    await registerUser(req.body);
     console.log("Successful register!")
     res.json(true);
   });
@@ -97,6 +99,21 @@ typeorm.createConnection({
     res.sendStatus(200);
   });
 
+  async function addFoodLocation(user: User, food_loc: common.AddFoodLocation): Promise<Food> {
+    const food = new Food();
+    food.user = user;
+    food.description = food_loc.description;
+    food.image = food_loc.image;
+    food.urgency = food_loc.urgency;
+    food.end_time = new Date();
+    const URGENCY_HOURS = {
+      low: 4,
+      med: 2,
+      high: 1,
+    };
+    food.end_time.setHours(food.end_time.getHours() + URGENCY_HOURS[food_loc.urgency]);
+    return await food_repo.save(food);
+  }
   app.post("/food", async (req, res) => {
     if (! common.validateAddFoodLocation(req.body)) {
       res.sendStatus(400);
@@ -111,19 +128,7 @@ typeorm.createConnection({
     if (user === undefined) {
       return;
     }
-    const food = new Food();
-    food.user = user;
-    food.description = req.body.description;
-    food.image = req.body.image;
-    food.urgency = req.body.urgency;
-    food.end_time = new Date();
-    const URGENCY_HOURS = {
-      low: 4,
-      med: 2,
-      high: 1,
-    };
-    food.end_time.setHours(food.end_time.getHours() + URGENCY_HOURS[req.body.urgency]);
-    await food_repo.save(food);
+    addFoodLocation(user, req.body);
     console.log("Added food location")
     res.sendStatus(200);
   });
@@ -177,6 +182,7 @@ typeorm.createConnection({
   });
 
   async function presetData() {
+    if (await user_repo.find({ username: "Unsw" }) !== undefined) return;
     const company = ["Unsw", "Oporto", "HighTea", "SomeCafe", "SomeBakery"]
     const lat = -33.917329664;
     const long = 151.225332432;
@@ -186,28 +192,19 @@ typeorm.createConnection({
     }
   }
 
-  async function createEntry(name:string, lat:number, long:number) {
-    const user = new User();
-    user.username = name;
-    user.password = "123";
-    user.business_name = name; 
-    user.latitude = lat;
-    user.longitude = long;
-    await user_repo.save(user)
+  async function createEntry(name:string, latitude:number, longitude:number) {
+    const user = await registerUser({
+      username: name,
+      password: "123",
+      business_name: name,
+      location: { latitude, longitude },
+    });
 
-    const food = new Food();
-    food.user = user;
-    food.description = "Bread";
-    food.image = "";
-    food.urgency = "low";
-    food.end_time = new Date();
-    const URGENCY_HOURS = {
-      low: 4,
-      med: 2,
-      high: 1,
-    };
-    food.end_time.setHours(food.end_time.getHours() + URGENCY_HOURS["low"]);
-    await food_repo.save(food);
+    await addFoodLocation(user, {
+      description: "Bread",
+      image: "",
+      urgency: "low",
+    });
   }
 
   app.listen(8000, () => {
