@@ -29,6 +29,9 @@ import LocationMapStyle from "./LocationMapStyle";
         gestureHandling: "greedy",
         zoomControl: true,
     });
+    
+    // mega hackyy
+    (window as any).map = map;
 };
 
 class LocationMap extends React.Component {
