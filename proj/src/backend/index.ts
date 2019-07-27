@@ -2,40 +2,84 @@
 import express from "express";
 import path from "path";
 import * as common from "../common/common"
-import { stringify } from "querystring";
+import { v4 as uuid } from "uuid"
 
 // Create a new express application instance
 const app: express.Application = express();
 
 type FoodLocationWithTime = common.AddFoodLocation & { time: Date };
 
+interface User {
+  username: string;
+  password: string;
+  business_name: string;
+  address: string;
+}
+interface Session {
+  session_uuid: string;
+  username: string;
+  session_start: Date;
+}
+
+const users_by_username: { [username: string]: User } = {};
+const sessions: { [session_uuid: string]: Session } = {};
 const food_locations: FoodLocationWithTime[] = [];
+
+function isLoggedIn(req: Request): boolean {
+  
+}
+// Returns whether registration was successful
+function registerUser(user: User): boolean {
+  
+}
+// return session uuid
+function loginUser(username: string, password: string): string {
+  
+}
+function logoutUser(session_uuid: string) {
+  
+}
+
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
 app.post("/add_food", (req, res) => {
-  console.log(req.body);
-  const x: FoodLocationWithTime = JSON.parse(req.body);
+  const x: FoodLocationWithTime = req.body;
+  console.log("/add_food received", req.body);
   x.time = new Date();
   food_locations.push(x);
-  res.send("Hello World!");
+  res.json(true);
 });
 
 function removeOldFoods() {
-  const curr_time = new Date(); 
-  while (0 < food_locations.length && food_locations[0].time < curr_time) {
-    food_locations.unshift();
+  const curr_time = new Date();
+  curr_time.setHours(curr_time.getHours() + 4); 
+  while (0 < food_locations.length && curr_time < food_locations[0].time) {
+    console.log("hi");
+    food_locations.shift();
   }
 }
+
 app.get("/get_food", (req, res) => {
   removeOldFoods();
-  res.send(JSON.stringify(food_locations));
+  res.json(food_locations);
 });
 
 app.use("/static", express.static(path.join(__dirname, "../../static")));
 app.use("/dist", express.static(path.join(__dirname, "../../dist")));
+
+app.post("/login", (req, res) => {
+
+})
+
+app.post("/register", (req, res) => {
+  const newUsr:User = req.body;
+  users_by_username.push({newUsr.username:newUsr});
+  res.json(true);
+})
 
 app.listen(8000, () => {
   console.log("Example app listening on port 8000!");
