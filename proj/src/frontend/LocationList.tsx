@@ -1,5 +1,5 @@
 import React from "react";
-import Location from "./LOcation";
+import Location from "./Location";
 
 import * as common from "../common/common";
 
