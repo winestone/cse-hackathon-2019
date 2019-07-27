@@ -44,7 +44,7 @@ class App extends React.Component<AppProps, AppState> {
                 <ul>
                     <li
                         onClick={() => this.setState({ content: "donate" })}
-                    >
+                    >   
                         Donate
                     </li>
                     <li
@@ -105,7 +105,7 @@ class App extends React.Component<AppProps, AppState> {
             <main>
                 <LocationMap />
                 <aside>
-                    <nav id = "login">
+                    <nav id="nav-login">
                         {/*
                             <Button type = "button" className = "btn btn-outline">LOGIN</Button>
                             <Button type = "button" className = "btn btn-outline">SIGN UP   </Button>
