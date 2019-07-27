@@ -22,6 +22,13 @@ app.get("/add_food", (req, res) => {
   res.send("Hello World!");
 });
 
+function removeOldFoods() {
+  const curr_time = new Date(); 
+  while (0 < food_locations.length && food_locations[0].time < curr_time) {
+    food_locations.unshift();
+  }
+}
+
 app.use("/static", express.static(path.join(__dirname, "../../static")));
 app.use("/dist", express.static(path.join(__dirname, "../../dist")));
 
