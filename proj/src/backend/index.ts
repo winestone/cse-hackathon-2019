@@ -41,7 +41,7 @@ function loginUser(username: string, password: string): string {
   
 }
 function logoutUser(session_uuid: string) {
-  
+  delete sessions[session_uuid]
 }
 
 app.use(express.json());
