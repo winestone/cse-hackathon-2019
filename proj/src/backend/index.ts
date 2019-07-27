@@ -182,12 +182,12 @@ typeorm.createConnection({
   });
 
   async function presetData() {
-    if (await user_repo.find({ username: "Unsw" }) !== undefined) return;
+    if (await user_repo.findOne({ username: "Unsw" }) !== undefined) return;
     const company = ["Unsw", "Oporto", "HighTea", "SomeCafe", "SomeBakery"]
     const lat = -33.917329664;
     const long = 151.225332432;
     for (let i=0; i < 5; i++) {
-      const r = Math.random();
+      const r = 0.1*(Math.random() - 0.5);
       await createEntry(company[i], r+lat, r+long);
     }
   }
