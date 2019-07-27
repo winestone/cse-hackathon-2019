@@ -75,7 +75,7 @@ typeorm.createConnection({
   app.get("/food/self", async (req, res) => {
     const session = getLiveSession(req.cookies.session_uuid);
     if (session === null) { res.sendStatus(404); return; }
-    res.json(await food_repo.find({user: session.user_id}));
+    res.json(await food_repo.find({id: session.user_id}));
   });
 
   app.post("/food/cancel", async (req, res) => {
