@@ -72,14 +72,18 @@ app.use("/static", express.static(path.join(__dirname, "../../static")));
 app.use("/dist", express.static(path.join(__dirname, "../../dist")));
 
 app.post("/login", (req, res) => {
-
-})
+});
 
 app.post("/register", (req, res) => {
   const newUsr:User = req.body;
   users_by_username.push({newUsr.username:newUsr});
   res.json(true);
-})
+});
+
+app.get("/logout", (req, res) => {
+  logoutUser(req.cookies.session_uuid)
+  // redirect to logout page 
+});
 
 app.listen(8000, () => {
   console.log("Example app listening on port 8000!");
