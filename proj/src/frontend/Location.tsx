@@ -3,17 +3,19 @@ import React, { FormEvent } from "react";
 import * as common from "../common/common";
 
 import ListGroupItem from "react-bootstrap/ListGroupItem";
+import Card from "react-bootstrap/Card";
 
-class Location extends React.Component<common.FoodLocation> {
-    render() {
-        return (
-            <ListGroupItem>
-                <div>{this.props.business_name}</div>
-                <div>{this.props.description}</div>
-            </ListGroupItem>
-
-        );
-    }
-}
+const Location = ({ business_name, urgency, description }: common.FoodLocation) =>
+    <ListGroupItem>
+        <Card>
+            <Card.Body>
+                <Card.Title>{business_name}</Card.Title>
+                <Card.Subtitle style={{ textTransform: "capitalize" }}>
+                    {urgency} urgency
+                </Card.Subtitle>
+                <Card.Text>{description}</Card.Text>
+            </Card.Body>
+        </Card> 
+    </ListGroupItem>
 
 export default Location;
