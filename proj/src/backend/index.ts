@@ -1,4 +1,5 @@
 // lib/app.ts
+import cookieParser from "cookie-parser";
 import express from "express";
 import path from "path";
 import * as typeorm from "typeorm";
@@ -38,6 +39,7 @@ typeorm.createConnection({
 
   const app: express.Application = express();
   app.use(express.json());
+  app.use(cookieParser());
   app.use("/static", express.static(path.join(__dirname, "../../static")));
   app.use("/dist", express.static(path.join(__dirname, "../../dist")));
 
@@ -90,13 +92,11 @@ typeorm.createConnection({
   });
 
   app.post("/food", async (req, res) => {
-    console.log("yes");
     if (! common.validateAddFoodLocation(req.body)) {
       res.sendStatus(400);
       return;
     }
     const session = getLiveSession(req.cookies && req.cookies.session_uuid);
-    console.log("/food ", req.cookies, req.cookies && req.cookies.session_uuid);
     if (session === null) {
       res.sendStatus(403);
       return;
@@ -136,7 +136,10 @@ typeorm.createConnection({
   }
 
   app.get("/food", async (req, res) => {
-    res.json((await food_repo.find({end_time: typeorm.MoreThan(new Date())})).map(foodToFoodLocation));
+    res.json((await food_repo.find({
+      end_time: typeorm.MoreThan(new Date()),
+      ["relations" as any]: ["user"],
+    })).map(foodToFoodLocation));
   });
 
   app.get("/food/self", async (req, res) => {
@@ -149,7 +152,11 @@ typeorm.createConnection({
       return;
     }
     res.json(
-      (await food_repo.find({user: { id: session.user_id }, end_time: typeorm.MoreThan(new Date())}))
+      (await food_repo.find({
+        user: { id: session.user_id },
+        end_time: typeorm.MoreThan(new Date()),
+        ["relations" as any]: ["user"],
+      }))
         .map(foodToFoodLocation)
     );
   });

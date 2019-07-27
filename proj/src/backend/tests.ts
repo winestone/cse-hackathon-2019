@@ -64,27 +64,31 @@ function requestPromise(options: request.RequiredUriUrl & request.CoreOptions): 
   //   console.assert(!body);
   // }
 
-  // let sess1: string = "";
-  // {
-  //   console.log("Login user1,pass1");
-  //   const [err, res, body] = await requestPromise({
-  //     uri: "http://localhost:8000/login",
-  //     method: "POST",
-  //     json: {
-  //       username: "user1",
-  //       password: "pass1",
-  //     } as common.UserAndPass,
-  //   });
+  const jar = request.jar();
 
-  //   console.assert(body);
-  //   let cookies = res.headers["set-cookie"];
-  //   console.log(cookies);
-  //   console.assert(cookies !== undefined);
-  //   if (cookies !== undefined) sess1 = cookies[0].substr(0, cookies[0].length - 6);
-  //   console.log(`sess1 "${sess1}"`);
-  // }
+  let sess1: string = "";
+  {
+    console.log("Login user1,pass1");
+    const [err, res, body] = await requestPromise({
+      uri: "http://localhost:8000/login",
+      method: "POST",
+      jar,
+      json: {
+        username: "user1",
+        password: "pass1",
+      } as common.UserAndPass,
+    });
 
-  const jar = request.jar({ session_uuid:"asdf" });
+    console.assert(body);
+    let cookies = res.headers["set-cookie"];
+    console.log(cookies);
+    console.assert(cookies !== undefined);
+    if (cookies !== undefined) sess1 = cookies[0].substr(0, cookies[0].length - 8);
+    console.log(`sess1 "${sess1}"`);
+  }
+
+  // jar.setCookie(sess1, "http://localhost:8000");
+  console.log("string", jar.getCookieString("http://localhost:8000"));
 
   {
     console.log("Test AddFoodLocation ");
@@ -105,14 +109,14 @@ function requestPromise(options: request.RequiredUriUrl & request.CoreOptions): 
     console.log(body);
   }
 
-  // {
-  //   console.log("Test GETFood location");
-  //   const [err, res, body] = await requestPromise({
-  //     uri: "http://localhost:8000/food",
-  //     method: "GET",
-  //   });
-  //   console.log(body);
-  // }
+  {
+    console.log("Test GETFood location");
+    const [err, res, body] = await requestPromise({
+      uri: "http://localhost:8000/food",
+      method: "GET",
+    });
+    console.log(body);
+  }
 
 })();
 

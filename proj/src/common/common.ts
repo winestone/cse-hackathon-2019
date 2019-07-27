@@ -79,7 +79,7 @@ export function validateUser(x: any): x is User {
 }
 
 export function validateAddFoodLocation(x: any): x is AddFoodLocation {
-  return ( typeof(x.description) === "string" && typeof(x.image) === "string");
+  return ( typeof(x.description) === "string" && typeof(x.image) === "string" && typeof(x.urgency) === "string");
 }
 
 export function validateFoodLocation(x: any): x is FoodLocation {
