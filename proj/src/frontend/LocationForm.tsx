@@ -34,7 +34,7 @@ class LocationForm extends React.Component {
 
         console.log("DATA:", data);
 
-        fetch("/add_food", {
+        fetch("/food", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
