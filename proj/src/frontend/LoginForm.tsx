@@ -56,7 +56,6 @@ class LoginForm extends React.Component {
                         onSubmit={this.handleSubmit}
                     >
                         <Form.Group controlId = "username">
-                            <Form.Label> Username </Form.Label>
                                 <Form.Control type = "text" name = "user-name" placeholder = "Username"></Form.Control>
                         </Form.Group>
     
