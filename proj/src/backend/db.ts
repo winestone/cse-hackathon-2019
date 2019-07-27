@@ -14,7 +14,7 @@ export class User {
 
   @Column()
   @Index({ unique: true })
-  business_name: number;
+  business_name: string;
 
   @Column("Decimal(9,6)")
   latitude: number;
