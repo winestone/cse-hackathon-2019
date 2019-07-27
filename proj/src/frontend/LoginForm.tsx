@@ -56,7 +56,8 @@ class LoginForm extends React.Component<LoginFormProps> {
                         id="login"
                         onSubmit={this.handleSubmit}
                     >
-                        <Form.Group controlId="username">
+                        <Form.Group controlId="username"> 
+                        <div id = "userimg"><img src = "/static/images/usercolour.png" id = "userimg" height = "40px"></img></div>
                             <Form.Control type="text" name="user-name" placeholder="Username"></Form.Control>
                         </Form.Group>
 

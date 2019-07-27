@@ -56,6 +56,8 @@ class SignUpForm extends React.Component {
                         onSubmit={this.handleSubmit}
                     >
                         <Form.Group controlId="username">
+                        <div id = "userimg"><img src = "/static/images/usercolour.png" id = "userimg" height = "40px"></img></div>
+
                             <Form.Control
                                 name="user-name"
                                 type="text"

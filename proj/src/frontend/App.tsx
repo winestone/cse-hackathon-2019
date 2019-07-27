@@ -71,6 +71,9 @@ class App extends React.Component<AppProps, AppState> {
         return () => this.setState({ content });
     }
 
+    logo() {
+        return 
+    }
     appNav() {
         if (this.state.signedIn) {
             return (
