@@ -69,7 +69,7 @@ typeorm.createConnection({
     const user = await user_repo.findOne({ username: req.body.username, password: req.body.password });
     if (user === undefined) { res.json(false); return; }
     const session_uuid = uuid();
-    res.cookie("session_uuid", session_uuid);
+    res.cookie("session_uuid", session_uuid, {httpOnly:false});
     res.json(true);
   });
 
