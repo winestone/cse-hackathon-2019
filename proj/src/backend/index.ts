@@ -21,6 +21,10 @@ app.get("/add_food", (req, res) => {
   res.send("Hello World!");
 });
 
+app.get("/get_food", (req, res) => {
+  
+});
+
 app.use("/static", express.static(path.join(__dirname, "../../static")));
 app.use("/dist", express.static(path.join(__dirname, "../../dist")));
 
