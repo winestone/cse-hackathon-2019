@@ -82,3 +82,25 @@ aside nav {
 #top-buttons li {
     display:inline;
 }
+
+#form-container{
+    background-color:white;
+    border-radius:10px;
+    opacity:0.8;
+    
+}   
+
+#form-title{
+    width:100%;
+    height:auto;
+    vertical-align:center;
+    font-size:25px;
+    background-color:$accent;
+    text-align:center;
+    color:white;
+    font-family:$font-body;
+    border-radius:10px 10px 0px 0px;
+}
+#form-body{
+    padding:10px;
+}

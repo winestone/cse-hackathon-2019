@@ -47,52 +47,34 @@ class LoginForm extends React.Component {
 
     render() {
         return (
-            <Container>
-                <Row className = "rowForm">
-                    <Col></Col>
-                    <Col>
-                    <div id = "form">
-                    <div id = "title">Login</div>
-                    <div id = "body">
-                        <br></br>
+            <div id = "form-container">
+                    <div id = "form-title">LOGIN</div>
+
+                    <div id = "form-body">
                     <Form
                         id="login"
                         onSubmit={this.handleSubmit}
                     >
                         <Form.Group controlId = "username">
-                            <Form.Label>
-                                <input
-                                    name="user-name"
-                                    type="text"
-                                    placeholder = "Username"
-                                />
-                            </Form.Label>
+                            <Form.Label> Username </Form.Label>
+                                <Form.Control type = "text" name = "user-name" placeholder = "Username"></Form.Control>
                         </Form.Group>
     
                         <Form.Group controlId = "password">
-                            <Form.Label>
-                                <input
-                                    name="password"
-                                    type="text" 
-                                    placeholder = "Password"
-                                />
-                            </Form.Label>
+                            <Form.Label> Password </Form.Label>
+                                <Form.Control type = "password" name = "password" placeholder = "Password"></Form.Control>
                         </Form.Group> 
     
                         
                         <div id = "button">
-                        <Button id = "submit" type="submit">Submit</Button>
+                        <Button id = "submit" className = "btn btn-outline" type="submit">Submit</Button>
                         </div>
     
                     </Form>
                     </div>
-                    </div>
-                    </Col>
+         
     
-    
-            <Col> </Col>
-            </Row> 
-            </Container>
+                </div>
         );
     }
 }
