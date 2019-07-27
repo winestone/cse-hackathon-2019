@@ -2,6 +2,7 @@
 import express from "express";
 import path from "path";
 import * as common from "../common/common"
+import { stringify } from "querystring";
 
 // Create a new express application instance
 const app: express.Application = express();
@@ -14,7 +15,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/add_food", (req, res) => {
+app.post("/add_food", (req, res) => {
   console.log(req.body);
   const x: FoodLocationWithTime = JSON.parse(req.body);
   x.time = new Date();
@@ -28,6 +29,10 @@ function removeOldFoods() {
     food_locations.unshift();
   }
 }
+app.get("/get_food", (req, res) => {
+  removeOldFoods();
+  res.send(JSON.stringify(food_locations));
+});
 
 app.use("/static", express.static(path.join(__dirname, "../../static")));
 app.use("/dist", express.static(path.join(__dirname, "../../dist")));
