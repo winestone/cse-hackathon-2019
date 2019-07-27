@@ -9,9 +9,9 @@
     "back:run": "node sdist/backend/index.js",
     "back:watch": "tsc -w",
     "back:watchrun": "nodemon",
+    "back:test": "node sdist/backend/tests.js",
     "front:build": "webpack",
-    "front:watch": "webpack --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "front:watch": "webpack --watch"
   },
   "author": "",
   "license": "ISC",
