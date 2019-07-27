@@ -69,7 +69,7 @@ export function validateLocation(x: any): x is Location {
   return (typeof(x.longitude) == 'string' && typeof(x.latitude) == 'string');
 }
 
-export function validateUserPass(x: any): x is UserAndPass {
+export function validateUserAndPass(x: any): x is UserAndPass {
   return (typeof(x.username) == 'string' && typeof(x.password) == 'string');
 }
 
