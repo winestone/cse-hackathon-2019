@@ -3,16 +3,16 @@ import Location from "./Location";
 
 import * as common from "../common/common";
 
-interface LocationListProps {
+import ListGroup from "react-bootstrap/ListGroup";
 
-};
+interface LocationListProps {};
 
 interface LocationListState {
     locations: Array<common.AddFoodLocation>;
 };
 
 class LocationList extends React.Component<LocationListProps, LocationListState> {
-    constructor(props: {}) {
+    constructor(props: LocationListProps) {
         super(props);
 
         this.state = {
@@ -28,7 +28,7 @@ class LocationList extends React.Component<LocationListProps, LocationListState>
 
     render() {
         return (
-            <ul>
+            <ListGroup>
                 {this.state.locations.map(({ name, address, description }) => (
                     <Location
                         name={name}
@@ -36,7 +36,7 @@ class LocationList extends React.Component<LocationListProps, LocationListState>
                         description={description}
                     />
                 ))}
-            </ul>
+            </ListGroup>
         );
     }
 }
