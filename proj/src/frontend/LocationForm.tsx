@@ -33,7 +33,7 @@ class LocationForm extends React.Component {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
-        }).then(x => x.json()).then(x => console.log(x))
+        });
     }
 
     render() {
