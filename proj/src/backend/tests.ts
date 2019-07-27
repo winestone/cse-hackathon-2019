@@ -61,11 +61,11 @@ function requestPromise(options: request.RequiredUriUrl & request.CoreOptions): 
         },
       } as common.UserAndPass,
     });
-    console.assert(!body)
+    console.assert(!body);
   }
 
   {
-    console.log("Login user1,pass1"); 
+    console.log("Login user1,pass1");
     const [err, res, body] = await requestPromise({
       uri: "http://localhost:8000/login",
       method: "POST",
@@ -74,7 +74,7 @@ function requestPromise(options: request.RequiredUriUrl & request.CoreOptions): 
         password: "pass1",
       } as common.UserAndPass,
     });
-   
+
     console.assert(body);
     console.log(res.headers["set-cookie"]);
   }

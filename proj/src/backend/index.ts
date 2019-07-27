@@ -20,7 +20,7 @@ typeorm.createConnection({
   database: "db.sqlite",
   entities: [Food, User],
   synchronize: true,
-  logging: false
+  logging: false,
 }).then(async connection => {
 
   const sessions: { [session_uuid: string]: Session } = {};
@@ -34,7 +34,7 @@ typeorm.createConnection({
 
   const food_repo = connection.getRepository(Food);
   const user_repo = connection.getRepository(User);
-  
+
   const app: express.Application = express();
   app.use(express.json());
   app.use("/static", express.static(path.join(__dirname, "../../static")));
@@ -71,7 +71,7 @@ typeorm.createConnection({
     const user = await user_repo.findOne({ username: req.body.username, password: req.body.password });
     if (user === undefined) { console.log("/login unable to find user with given user and pass"); res.json(false); return; }
     const session_uuid = uuid();
-    res.cookie("session_uuid", session_uuid, {httpOnly:false});
+    res.cookie("session_uuid", session_uuid, {httpOnly: false});
     res.json(true);
   });
 
@@ -83,7 +83,7 @@ typeorm.createConnection({
     res.sendStatus(200);
   });
 
-  app.post("/food", (req, res) => {
+  app.post("/food", async (req, res) => {
     if (! common.validateFoodLocation(req.body)) {
       res.sendStatus(400);
       return;
@@ -97,7 +97,7 @@ typeorm.createConnection({
 
     const user = new User();
     user.id = session.user_id;
-    const food = new Food()
+    const food = new Food();
     food.user = user;
     food.description = req.body.description;
     food.image = req.body.image;
@@ -109,7 +109,7 @@ typeorm.createConnection({
       high: 1,
     };
     food.end_time.setHours(food.end_time.getHours() + URGENCY_HOURS[req.body.urgency]);
-    food_repo.save(food);
+    await food_repo.save(food);
     res.sendStatus(200);
   });
 
@@ -148,7 +148,7 @@ typeorm.createConnection({
 
   app.post("/food/cancel", async (req, res) => {
     if (!common.validateFoodCancel(req.body)) { res.sendStatus(404); return; }
-    const f = await food_repo.findOne(req.body.id)
+    const f = await food_repo.findOne(req.body.id);
     if (f === undefined) { res.sendStatus(404); return; }
     await food_repo.remove(f);
     res.sendStatus(200);
