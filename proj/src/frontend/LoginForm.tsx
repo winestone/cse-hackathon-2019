@@ -73,7 +73,7 @@ class LoginForm extends React.Component {
                             <Form.Label>
                                 <input
                                     name="password"
-                                    type="text" 
+                                    type="password"
                                     placeholder = "Password"
                                 />
                             </Form.Label>
