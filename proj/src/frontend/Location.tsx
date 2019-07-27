@@ -2,14 +2,7 @@ import React, { FormEvent } from "react";
 
 import * as common from "../common/common";
 
-
-class Location extends React.Component {
-    constructor(props: any) {
-        super(props);
-
-    }
-
-
+class Location extends React.Component<common.AddFoodLocation> {
     render() {
         return (
             <li>

@@ -3,12 +3,12 @@ import * as ReactDOM from "react-dom";
 import * as common from "../common/common";
 
 import LocationForm from "./LocationForm";
-
-/*const x: common.AddFoodLocation = {
-
-};*/
+import LocationList from "./LocationList";
 
 ReactDOM.render(
-    <LocationForm />,
+    <main>
+        <LocationForm />
+        <LocationList />
+    </main>,
     document.getElementById("example"),
 );
