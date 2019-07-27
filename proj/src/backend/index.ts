@@ -60,9 +60,10 @@ typeorm.createConnection({
   app.post("/login", async (req, res) => {
     if (!common.validateUserAndPass(req)) { res.json(false); return; }
     const user = await user_repo.findOne({ username: req.body.username, password: req.body.password });
+    if (user === undefined) { res.json(false); return; }
     const session_uuid = uuid();
     res.cookie("session_uuid", session_uuid);
-    await res.json(true);
+    res.json(true);
   });
 
   app.get("/logout", (req, res) => {
