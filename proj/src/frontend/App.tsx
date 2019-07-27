@@ -75,6 +75,9 @@ class App extends React.Component<AppProps, AppState> {
         if (this.state.signedIn) {
             return (
                 <ul id = "top-buttons">
+                    <li onClick={this.setContent("list")}>   
+                        <Button className = "btn btn-outline">Food</Button>
+                    </li>
                     <li onClick={this.setContent("donate")}>   
                         <Button className = "btn btn-outline">Donate</Button>
                     </li>
@@ -86,11 +89,14 @@ class App extends React.Component<AppProps, AppState> {
         } else {
             return (
                 <ul id = "top-buttons">
+                    <li onClick={this.setContent("list")}>   
+                        <Button className = "btn btn-outline">FOOD</Button>
+                    </li>
                     <li onClick={this.setContent("signin")}>
                         <Button className = "btn btn-outline">SIGN IN</Button>
                     </li>
                     <li onClick={this.setContent("signup")}>
-                        <Button className = "btn btn-outline">REGISTER </Button>
+                        <Button className = "btn btn-outline">REGISTER</Button>
                     </li>
                 </ul>
             );
