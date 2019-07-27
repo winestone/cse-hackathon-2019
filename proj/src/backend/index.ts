@@ -1,8 +1,9 @@
 // lib/app.ts
 import express from "express";
 import path from "path";
-import * as common from "../common/common"
-import { v4 as uuid } from "uuid"
+import { v4 as uuid } from "uuid";
+
+import * as common from "../common/common";
 
 // Create a new express application instance
 const app: express.Application = express();
@@ -69,7 +70,7 @@ app.post("/add_food", (req, res) => {
 
 function removeOldFoods() {
   const curr_time = new Date();
-  curr_time.setHours(curr_time.getHours() + 4); 
+  curr_time.setHours(curr_time.getHours() + 4);
   while (0 < food_locations.length && curr_time < food_locations[0].time) {
     food_locations.shift();
   }
@@ -84,7 +85,6 @@ app.use("/static", express.static(path.join(__dirname, "../../static")));
 app.use("/dist", express.static(path.join(__dirname, "../../dist")));
 
 app.post("/login", (req, res) => {
-  // redirect to logout page 
   if (typeof(req.body) === "object" && typeof(req.body.username) === "string" && typeof(req.body.password) === "string") {
     const session_uuid = loginUser(req.body.username, req.body.password);
     if (session_uuid !== null) {
@@ -100,7 +100,7 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  logoutUser(req.cookies.session_uuid)
+  logoutUser(req.cookies.session_uuid);
 });
 
 app.listen(8000, () => {
