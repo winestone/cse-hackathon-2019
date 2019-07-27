@@ -44,10 +44,7 @@ typeorm.createConnection({
     res.send("Hello World!");
   });
 
-  console.log("asfddsfs");
   app.post("/register", (req, res) => {
-    console.log("wtf");
-    console.log(req.body, "Asdfsfdfsf");
     if (!common.validateUser(req.body)) { console.log(req.body); res.json(false); return; }
     console.log(req.body);
     const user = new User();
