@@ -65,7 +65,7 @@ createConnection({
     const user = await user_repo.findOne({ username: req.body.username, password: req.body.password });
     const session_uuid = uuid();
     res.cookie("session_uuid", session_uuid);
-    res.json(true);
+    await res.json(true);
   });
 
   app.get("/logout", (req, res) => {
