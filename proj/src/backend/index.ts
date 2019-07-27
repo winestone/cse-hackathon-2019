@@ -80,7 +80,7 @@ typeorm.createConnection({
     }
     const session = getLiveSession(req.cookies.session_uuid);
     if (session === null) {
-      res.sendStatus(400);
+      res.sendStatus(403);
       return;
     }
     // const user = user_repo.find({user: { id: session.user_id}});
@@ -91,7 +91,14 @@ typeorm.createConnection({
     food.user = user;
     food.description = req.body.description;
     food.image = req.body.image;
+    food.urgency = req.body.urgency;
     food.end_time = new Date();
+    const URGENCY_HOURS = {
+      low: 4,
+      med: 2,
+      high: 1,
+    };
+    food.end_time.setHours(food.end_time.getHours() + URGENCY_HOURS[req.body.urgency]);
     food_repo.save(food);
     res.sendStatus(200);
   });
