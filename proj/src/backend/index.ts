@@ -187,8 +187,9 @@ typeorm.createConnection({
     const lat = -33.917329664;
     const long = 151.225332432;
     for (let i=0; i < 5; i++) {
-      const r = 0.1*(Math.random() - 0.5);
-      await createEntry(company[i], r+lat, r+long);
+      const r_lat = 0.1*(Math.random() - 0.5);
+      const r_long = 0.1*(Math.random() - 0.5);
+      await createEntry(company[i], r_lat+lat, r_long+long);
     }
   }
 
