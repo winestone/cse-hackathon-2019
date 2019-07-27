@@ -7,6 +7,7 @@ import "reflect-metadata";
 
 import * as common from "../common/common";
 import {Food, User} from "./db";
+import { string } from "prop-types";
 
 interface Session {
   session_uuid: string;
@@ -57,11 +58,19 @@ typeorm.createConnection({
   });
 
   app.get("/food/self", (req, res) => {
-
+    if (typeof(req.cookies.session_uuid) == "string") {
+      const user = sessions[req.cookies.session_uuid]
+      if (user) {
+        res.json(food_repo.find({id: user.id}))
+      }
+    }
+    res.sendStatus(404)
   });
 
-  app.post("/food/cancel", (req, res) => {
-
+  app.post("/food/cancel", async (req, res) => {
+    if (validateFoodCancel(req.body)) {
+      await food_repo.remove(req.body.id);
+    }
   });
 
   app.listen(8000, () => {
