@@ -48,11 +48,8 @@ typeorm.createConnection({
     if (!common.validateUser(req.body)) { console.log(req.body); res.json(false); return; }
     console.log(req.body);
     const chkuser = user_repo.findOne({username: req.body.username});
-    console.log("poop" + chkuser);
-    console.log("ahahahah");
     const chkcompany = user_repo.findOne({business_name: req.body.business_name});
-    console.log("poop" + chkcompany);
-    if (chkuser === undefined && chkcompany === undefined) {
+    if (chkuser !== undefined || chkcompany !== undefined) {
       res.json(false);
       return;
     }
@@ -63,6 +60,7 @@ typeorm.createConnection({
     user.latitude = req.body.location.latitude;
     user.longitude = req.body.location.longitude;
     user_repo.save(user);
+    console.log("ahahahahh");
     res.json(true);
   });
 
@@ -71,7 +69,7 @@ typeorm.createConnection({
     const user = await user_repo.findOne({ username: req.body.username, password: req.body.password });
     if (user === undefined) { res.json(false); return; }
     const session_uuid = uuid();
-    res.cookie("session_uuid", session_uuid);
+    res.cookie("session_uuid", session_uuid, {httpOnly:false});
     res.json(true);
   });
 
