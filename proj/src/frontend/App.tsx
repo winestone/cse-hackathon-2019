@@ -29,32 +29,15 @@ class App extends React.Component<AppProps, AppState> {
                 <LocationMap/>
                 <aside>
                     <nav>
-
+                        <ul>
+                            <li>Sign In</li>
+                            <li>Sign Up</li>
+                        </ul>
                     </nav>
                     <div>
-                        
+                        <LocationList />
                     </div>
                 </aside>
-                {/*
-                <div
-                    style={{
-                        position: "fixed",
-                        margin: "48px",
-                        width: "288px",
-                        top: "0px",
-                        right: "0px",
-                        background: "#FFF",
-                        borderRadius: "0.2em",
-                        padding: "24px",
-                        display: "flex",
-                        justifyContent: "space-around",
-                    }}
-                >
-                    <a>Login</a>
-                    <a>Signup</a>
-                </div>
-                <LocationList />
-                */}
                 {this.state.showForm && <LocationForm />}
             </main>
         );
