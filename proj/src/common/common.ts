@@ -2,8 +2,8 @@
 type Urgency = "low" | "med" | "high";
 
 export interface Location {
-  longitude: string,
-  latitude: string,
+  longitude: number;
+  latitude: number;
 }
 
 export interface UserAndPass {
@@ -65,27 +65,27 @@ export function validateUrgency(x: any): x is Urgency {
 }
 
 export function validateLocation(x: any): x is Location {
-  return (typeof(x.longitude) == 'string' && typeof(x.latitude) == 'string');
+  return (typeof(x.longitude) === 'number' && typeof(x.latitude) === 'number');
 }
 
 export function validateUserAndPass(x: any): x is UserAndPass {
-  return (typeof(x.username) == 'string' && typeof(x.password) == 'string');
+  return (typeof(x.username) === 'string' && typeof(x.password) === 'string');
 }
 
 export function validateUser(x: any): x is User {
-  return (typeof(x.username) == 'string' && typeof(x.password) == 'string' && typeof(x.business_name) == 'string' &&
+  return (typeof(x.username) === 'string' && typeof(x.password) === 'string' && typeof(x.business_name) === 'string' &&
     validateLocation(x.location));
 }
 
 export function validateAddFoodLocation(x: any): x is AddFoodLocation {
-  return ( typeof(x.description) == 'string' && typeof(x.image) == 'string');
+  return ( typeof(x.description) === 'string' && typeof(x.image) === 'string');
 }
 
 export function validateFoodLocation(x: any): x is FoodLocation {
-  return (typeof(x.id) == 'number' && typeof(x.business_name) == 'string' && validateLocation(x.location) &&
-    typeof(x.description) == 'string' && validateUrgency(x.urgency) && typeof(x.image) == 'string');
+  return (typeof(x.id) === 'number' && typeof(x.business_name) === 'string' && validateLocation(x.location) &&
+    typeof(x.description) === 'string' && validateUrgency(x.urgency) && typeof(x.image) === 'string');
 }
 
 export function validateFoodCancel(x: any): x is FoodCancel {
-  return (typeof(x.id) == 'string');
+  return (typeof(x.id) === 'string');
 }
