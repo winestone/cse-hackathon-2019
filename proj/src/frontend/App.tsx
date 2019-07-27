@@ -4,6 +4,9 @@ import LocationForm from "./LocationForm";
 import LocationList from "./LocationList";
 import LocationMap from "./LocationMap";
 
+import SignUpForm from "./SignUpForm";
+import LoginForm from "./LoginForm";
+
 interface AppProps { };
 
 interface AppState {
@@ -74,17 +77,17 @@ class App extends React.Component<AppProps, AppState> {
 
             case "signin":
                 return (
-                    <span>TODO: signin</span>
+                    <LoginForm />
                 );
 
             case "signup":
                 return (
-                    <span>TODO: signup</span>
+                    <SignUpForm />
                 );
 
             case "donate":
                 return (
-                    <span>TODO: donate</span>
+                    <LocationForm />
                 );
 
             default:

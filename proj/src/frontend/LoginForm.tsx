@@ -39,9 +39,9 @@ class LoginForm extends React.Component {
 
         const result = await response.json();
         if (result) {
-            handleSuccess();
+            //handleSuccess();
         } else {
-            handleFailure();
+            //handleFailure();
         }
     }
 
@@ -98,3 +98,6 @@ class LoginForm extends React.Component {
             </Container>
         );
     }
+}
+
+export default LoginForm;
