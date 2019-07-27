@@ -25,6 +25,21 @@ const users_by_username: { [username: string]: User } = {};
 const sessions: { [session_uuid: string]: Session } = {};
 const food_locations: FoodLocationWithTime[] = [];
 
+function isLoggedIn(req: Request): boolean {
+  
+}
+// Returns whether registration was successful
+function registerUser(user: User): boolean {
+  
+}
+// return session uuid
+function loginUser(username: string, password: string): string {
+  
+}
+function logoutUser(session_uuid: string) {
+  
+}
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
