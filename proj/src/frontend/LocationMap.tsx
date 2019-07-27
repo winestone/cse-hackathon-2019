@@ -33,7 +33,13 @@ import LocationMapStyle from "./LocationMapStyle";
 
 class LocationMap extends React.Component {
     render() {
-        return <div id="map" />
+        return (
+            <div
+                id="map" 
+                className="position-absolute"
+                style={{ top: "0px", left: "0px", width: "100%" }}
+            />
+        );
     }    
 }
 

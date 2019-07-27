@@ -8,7 +8,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 
-
 class LocationForm extends React.Component {
     constructor(props: {}) {
         super(props);
@@ -46,9 +45,6 @@ class LocationForm extends React.Component {
     render() {
         return (
             <Container>
-
-
-
                 <Row className = "rowForm">
                     <Col></Col>
                     <Col>

@@ -29,8 +29,14 @@ class LocationList extends React.Component<LocationListProps, LocationListState>
     render() {
         return (
             <ListGroup
-                className="position-fixed m-3"
-                style={{ right: "0px", top: "0px", width: "360px" }}
+                className="position-fixed"
+                style={{
+                    right: "0px",
+                    top: "200px",
+                    width: "288px",
+                    padding: "24px",
+                    margin: "48px",
+                }}
             >
                 {this.state.locations.map(({ name, address, description }) => (
                     <Location
