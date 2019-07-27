@@ -4,8 +4,15 @@ import LocationForm from "./LocationForm";
 import LocationList from "./LocationList";
 import LocationMap from "./LocationMap";
 
+<<<<<<< HEAD
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+=======
 import SignUpForm from "./SignUpForm";
 import LoginForm from "./LoginForm";
+>>>>>>> da053ebdac7fd347b41aa8e9811937703ca05f3d
 
 interface AppProps { };
 
@@ -101,6 +108,9 @@ class App extends React.Component<AppProps, AppState> {
             <main>
                 <LocationMap />
                 <aside>
+                    <nav id = "login">
+                            <Button type = "button" className = "btn btn-outline">LOGIN</Button>
+                            <Button type = "button" className = "btn btn-outline">SIGN UP   </Button>
                     <nav>
                         {this.appNav()}
                     </nav>
