@@ -80,7 +80,7 @@ app.post("/login", (req, res) => {
 })
 
 app.post("/register", (req, res) => {
-  res.json(registerUser(req));
+  res.json(registerUser(req.body));
 })
 
 app.listen(8000, () => {
