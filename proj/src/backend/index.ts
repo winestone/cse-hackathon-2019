@@ -26,10 +26,7 @@ const sessions: { [session_uuid: string]: Session } = {};
 const food_locations: FoodLocationWithTime[] = [];
 
 function isLoggedIn(req: Request): boolean {
-  if(sessions[req.cookies.session_uuid] !== undefined){
-    return true;
-  }
-  return false;
+  return (sessions[req.cookies.session_uuid] !== undefined)
 }
 // Returns whether registration was successful
 function registerUser(user: User): boolean {
