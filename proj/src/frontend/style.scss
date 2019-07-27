@@ -27,3 +27,18 @@ $green: #4db546;
     background-color:white;
     align-content:center;
 }
+
+aside {
+    position: fixed;
+    max-height: 100%;
+    height: 100%;
+    padding: 48px;
+    top: 0px;
+    right: 0px;
+    width: 380px;
+}
+
+aside nav {
+    margin-bottom: 24px;
+    background: #FFF;
+}
