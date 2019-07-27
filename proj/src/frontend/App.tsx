@@ -74,26 +74,22 @@ class App extends React.Component<AppProps, AppState> {
     appNav() {
         if (this.state.signedIn) {
             return (
-                <ul>
+                <ul id = "top-buttons">
                     <li onClick={this.setContent("donate")}>   
-                        Donate
+                        <Button className = "btn btn-outline">Donate</Button>
                     </li>
                     <li onClick={this.logOut}>
-                        Sign Out
+                        <Button className = "btn btn-outline">Sign Out</Button>
                     </li>
                 </ul>
             );
         } else {
             return (
                 <ul id = "top-buttons">
-                    <li
-                        onClick={() => this.setState({ content: "signin" })}
-                    >
+                    <li onClick={this.setContent("signin")}>
                         <Button className = "btn btn-outline">SIGN IN</Button>
                     </li>
-                    <li
-                        onClick={() => this.setState({ content: "signup" })}
-                    >
+                    <li onClick={this.setContent("signup")}>
                         <Button className = "btn btn-outline">REGISTER </Button>
                     </li>
                 </ul>
@@ -129,10 +125,6 @@ class App extends React.Component<AppProps, AppState> {
                 <LocationMap />
                 <aside>
                     <nav id="nav-login">
-                        {/*
-                            <Button type = "button" className = "btn btn-outline">LOGIN</Button>
-                            <Button type = "button" className = "btn btn-outline">SIGN UP   </Button>
-                        */}
                         {this.appNav()}
                     </nav>
                     <div>

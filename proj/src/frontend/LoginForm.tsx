@@ -13,22 +13,22 @@ class LoginForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    async handleSubmit(event : FormEvent) {
+    async handleSubmit(event: FormEvent) {
         event.preventDefault();
-        
+
         const form = document.getElementById("login") as HTMLFormElement;
         const formData = new FormData(form);
-    
+
         const username = String(formData.get("user-name") || "");
         const password = String(formData.get("password") || "");
-    
+
         const data: common.UserAndPass = {
             username,
             password
         };
-    
+
         console.log("DATA:", data);
-    
+
         const response = await fetch("/login", {
             method: "POST",
             headers: {
@@ -47,43 +47,33 @@ class LoginForm extends React.Component {
 
     render() {
         return (
-            <div id = "form-container">
-                    <div id = "form-title">LOGIN</div>
+            <div id="form-container">
+                <div id="form-title">LOGIN</div>
 
-                    <div id = "form-body">
+                <div id="form-body">
                     <Form
                         id="login"
                         onSubmit={this.handleSubmit}
                     >
-                        <Form.Group controlId = "username">
-                                <Form.Control type = "text" name = "user-name" placeholder = "Username"></Form.Control>
+                        <Form.Group controlId="username">
+                            <Form.Control type="text" name="user-name" placeholder="Username"></Form.Control>
                         </Form.Group>
-    
-                        <Form.Group controlId = "password">
-<<<<<<< HEAD
+
+                        <Form.Group controlId="password">
                             <Form.Label> Password </Form.Label>
-                                <Form.Control type = "password" name = "password" placeholder = "Password"></Form.Control>
-=======
-                            <Form.Label>
-                                <input
-                                    name="password"
-                                    type="password"
-                                    placeholder = "Password"
-                                />
-                            </Form.Label>
->>>>>>> ec5e21a7b90137c0191363cf91c96e830e9df7aa
-                        </Form.Group> 
-    
-                        
-                        <div id = "button">
-                        <Button id = "submit" className = "btn btn-outline" type="submit">Submit</Button>
+                            <Form.Control type="password" name="password" placeholder="Password"></Form.Control>
+                        </Form.Group>
+
+
+                        <div id="button">
+                            <Button id="submit" className="btn btn-outline" type="submit">Submit</Button>
                         </div>
-    
+
                     </Form>
-                    </div>
-         
-    
                 </div>
+
+
+            </div>
         );
     }
 }
