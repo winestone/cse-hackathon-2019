@@ -2,8 +2,8 @@
 type Urgency = "low" | "med" | "high";
 
 export interface Location {
-  longitude: string,
-  latitude: string,
+  longitude: number;
+  latitude: number;
 }
 
 export interface UserAndPass {
@@ -21,6 +21,7 @@ export interface User {
 export interface AddFoodLocation {
   description: string;
   image: string; // base64 encoded png/jpeg?
+  urgency: Urgency;
 }
 
 export interface FoodLocation {

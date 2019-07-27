@@ -49,11 +49,13 @@ typeorm.createConnection({
   });
 
   app.post("/food", (req, res) => {
+    if (! common.validateFoodLocation(req)) return false;
+    req.body.
 
   });
 
   app.get("/food", (req, res) => {
-
+    
   });
 
   app.get("/food/self", (req, res) => {
