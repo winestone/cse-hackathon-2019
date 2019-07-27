@@ -1,7 +1,7 @@
 // lib/app.ts
 import express from "express";
 import path from "path";
-import typeorm from "typeorm";
+import {createConnection} from "typeorm";
 import {v4 as uuid} from "uuid";
 import "reflect-metadata";
 
@@ -15,7 +15,7 @@ interface Session {
   session_start: Date;
 }
 
-typeorm.createConnection({
+createConnection({
   type: "sqlite",
   database: "db.sqlite",
   entities: [Food, User],
@@ -75,7 +75,7 @@ typeorm.createConnection({
   app.get("/food/self", async (req, res) => {
     const session = getLiveSession(req.cookies.session_uuid);
     if (session === null) { res.sendStatus(404); return; }
-    res.json(await food_repo.find({id: session.user_id}));
+    res.json(await food_repo.find({user: { id: session.user_id }}));
   });
 
   app.post("/food/cancel", async (req, res) => {

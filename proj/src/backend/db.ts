@@ -1,45 +1,45 @@
-import {Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, Index, OneToMany, ManyToOne} from "typeorm";
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
   @Index({ unique: true })
-  username: string;
+  username!: string;
 
   @Column()
-  password: string;
+  password!: string;
 
   @Column()
   @Index({ unique: true })
-  business_name: string;
+  business_name!: string;
 
-  @Column("Decimal(9,6)")
-  latitude: number;
-  @Column("Decimal(9,6)")
-  longitude: number;
+  @Column("double")
+  latitude!: number;
+  @Column("double")
+  longitude!: number;
 
-  @OneToMany(type => Food, food => food.user_id) // note: we will create author property in the Photo class below
-  foods: Food[];
+  @OneToMany(type => Food, food => food.user) // note: we will create author property in the Photo class below
+  foods!: Food[];
 }
 
 @Entity()
 export class Food {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
   @Index({ unique: true })
-  start_time: Date;
+  start_time!: Date;
 
   @Column()
-  description: string;
+  description!: string;
 
   @Column()
-  image: string;
+  image!: string;
 
   @ManyToOne(type => User, user => user.foods)
-  user: User;
+  user!: User;
 }
