@@ -1,13 +1,17 @@
 import React from "react";
-import Location from "./LOcation";
+import Location from "./Location";
 
 import * as common from "../common/common";
+
+interface LocationListProps {
+
+};
 
 interface LocationListState {
     locations: Array<common.AddFoodLocation>;
 };
 
-class LocationList extends React.Component<{}, LocationListState> {
+class LocationList extends React.Component<LocationListProps, LocationListState> {
     constructor(props: {}) {
         super(props);
 
@@ -18,8 +22,8 @@ class LocationList extends React.Component<{}, LocationListState> {
 
     async componentDidMount() {
         const data = await fetch("/get_food");
-        const json = await data.json();
-        console.log("DATA:", json);
+        const locations = await data.json();
+        this.setState({ locations });
     }
 
     render() {
