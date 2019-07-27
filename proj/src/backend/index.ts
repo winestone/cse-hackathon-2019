@@ -61,8 +61,9 @@ app.post("/login", (req, res) => {
 })
 
 app.post("/register", (req, res) => {
-  const newUsr:User = req;
+  const newUsr:User = req.body;
   users_by_username.push({newUsr.username:newUsr});
+  res.json(true);
 })
 
 app.listen(8000, () => {
