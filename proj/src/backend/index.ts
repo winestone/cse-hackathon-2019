@@ -6,7 +6,9 @@ import * as common from "../common/common"
 // Create a new express application instance
 const app: express.Application = express();
 
-const food_locations: common.AddFoodLocation[] = [];
+type FoodLocationWithTime = common.AddFoodLocation & { time: Date };
+
+const food_locations: FoodLocationWithTime[] = [];
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -14,7 +16,8 @@ app.get("/", (req, res) => {
 
 app.get("/add_food", (req, res) => {
   console.log(req.body);
-  food_locations.push(req.body);
+  const x: FoodLocationWithTime = req.body;
+  food_locations.push(x);
   res.send("Hello World!");
 });
 
