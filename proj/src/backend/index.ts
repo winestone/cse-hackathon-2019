@@ -66,6 +66,7 @@ typeorm.createConnection({
     user.latitude = req.body.location.latitude;
     user.longitude = req.body.location.longitude;
     await user_repo.save(user);
+    console.log("Successful register!")
     res.json(true);
   });
 
@@ -80,6 +81,7 @@ typeorm.createConnection({
       user_id: user.id,
       session_start: new Date(),
     };
+    console.log("Successful login");
     res.json(true);
   });
 
@@ -89,6 +91,7 @@ typeorm.createConnection({
       delete sessions[session_uuid];
       res.clearCookie('session_uuid');
     }
+    console.log("Successful logout");
     res.sendStatus(200);
   });
 
@@ -119,6 +122,7 @@ typeorm.createConnection({
     };
     food.end_time.setHours(food.end_time.getHours() + URGENCY_HOURS[req.body.urgency]);
     await food_repo.save(food);
+    console.log("Added food location")
     res.sendStatus(200);
   });
 
