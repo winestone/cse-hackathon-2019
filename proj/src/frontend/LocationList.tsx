@@ -8,7 +8,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 interface LocationListProps {};
 
 interface LocationListState {
-    locations: Array<common.AddFoodLocation>;
+    locations: Array<common.FoodLocation>;
 };
 
 class LocationList extends React.Component<LocationListProps, LocationListState> {
@@ -29,11 +29,9 @@ class LocationList extends React.Component<LocationListProps, LocationListState>
     render() {
         return (
             <ListGroup>
-                {this.state.locations.map(({ name, address, description }) => (
+                {this.state.locations.map((props) => (
                     <Location
-                        name={name}
-                        address={address}
-                        description={description}
+                        {...props}
                     />
                 ))}
             </ListGroup>

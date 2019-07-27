@@ -13,18 +13,26 @@ class SignUpForm extends React.Component{
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    handleSubmit(event : FormEvent) {
+
+    async handleSubmit(event : FormEvent) {
         event.preventDefault();
         
         const form = document.getElementById("signup") as HTMLFormElement;
         const formData = new FormData(form);
     
-        const username = String(formData.get("username") || "");
+        const username = String(formData.get("user-name") || "");
         const password = String(formData.get("password") || "");
+        const business_name = String(formData.get("business-name") || "");
+        const { coords: { latitude, longitude } } =
+            await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject);
+            });
     
         const data: common.User = {
             username,
-            password
+            password,
+            business_name,
+            location: { latitude, longitude },
         };
     
         console.log("DATA:", data);
@@ -41,9 +49,6 @@ class SignUpForm extends React.Component{
     render() {
         return (
             <Container>
-    
-    
-    
                 <Row className = "rowForm">
                     <Col></Col>
                     <Col>   
@@ -61,6 +66,16 @@ class SignUpForm extends React.Component{
                                     name="user-name"
                                     type="text"
                                     placeholder = "Username"
+                                />
+                            </Form.Label>
+                        </Form.Group>
+
+                        <Form.Group controlId = "business-name">
+                            <Form.Label>
+                                <input
+                                    name="business-name"
+                                    type="text" 
+                                    placeholder = "Business Name"
                                 />
                             </Form.Label>
                         </Form.Group>
@@ -85,6 +100,7 @@ class SignUpForm extends React.Component{
                             </Form.Label>
                         </Form.Group> 
     
+                        
                         
                         <div id = "button">
                         <Button id = "submit" type="submit">Submit</Button>
