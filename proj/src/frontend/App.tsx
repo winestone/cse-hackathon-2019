@@ -13,7 +13,6 @@ import * as common from "../common/common";
 interface AppProps { };
 
 interface AppState {
-    showForm: boolean;
     signedIn: boolean;
     content: AppContent;
     location: common.Location | null;
@@ -30,13 +29,19 @@ class App extends React.Component<AppProps, AppState> {
         super(props);
 
         this.state = {
-            showForm: false,
-            signedIn: false,
+            signedIn: this.isLoggedIn(),
             content: "list",
             location: null,
         };
 
         this.appNav = this.appNav.bind(this);
+    }
+
+    isLoggedIn() {
+        return document.cookie
+            .split(";")
+            .map(x => x.split("="))
+            .some(([key]) => key === "session_uuid");
     }
 
     appNav() {
