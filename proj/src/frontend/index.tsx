@@ -17,14 +17,17 @@ ReactDOM.render(
     <main>
         <Container fluid className="px-0">
             <Row noGutters>
-                <Col xs={9}>
+                <Col xs={12}>
                     <LocationMap />
                 </Col>
+                {/*
                 <Col xs={3}>
                     <LocationList />
-                </Col>                
+                </Col>   
+                */}             
             </Row>
         </Container>
+        <LocationList/>
         <LocationForm />
     </main>,
     document.getElementById("example"),
