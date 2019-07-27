@@ -1,113 +1,159 @@
 // lib/app.ts
 import express from "express";
 import path from "path";
-import { v4 as uuid } from "uuid";
+import * as typeorm from "typeorm";
+import {v4 as uuid} from "uuid";
+import "reflect-metadata";
 
 import * as common from "../common/common";
+import {Food, User} from "./db";
+import { string } from "prop-types";
 
-// Create a new express application instance
-const app: express.Application = express();
-
-type FoodLocationWithTime = common.AddFoodLocation & { time: Date };
-
-interface User {
-  username: string;
-  password: string;
-  business_name: string;
-  address: string;
-}
 interface Session {
   session_uuid: string;
-  username: string;
+  user_id: number;
   session_start: Date;
 }
 
-const users_by_username: { [username: string]: User } = {};
-const sessions: { [session_uuid: string]: Session } = {};
-const food_locations: FoodLocationWithTime[] = [];
+typeorm.createConnection({
+  type: "sqlite",
+  database: "db.sqlite",
+  entities: [Food, User],
+  synchronize: true,
+  logging: false
+}).then(async connection => {
 
-function isLoggedIn(req: express.Request): boolean {
-  return sessions[req.cookies.session_uuid] !== undefined;
-}
-// Returns whether registration was successful
-function registerUser(user: User): boolean {
-  if ( users_by_username[user.username] !== undefined ) {
-    return false;
+  const sessions: { [session_uuid: string]: Session } = {};
+
+  function validateLiveSession(x: any): x is string {
+    return typeof x === "string" && typeof sessions[x] !== "undefined";
   }
-  users_by_username[user.username] = user;
-  return true;
-}
-
-// return session uuid
-function loginUser(username: string, password: string): string | null {
-  const user = users_by_username[username];
-  if (user === undefined || user.password !== password) return null;
-  const session_uuid = uuid();
-  sessions[session_uuid] = {
-    session_uuid,
-    username,
-    session_start: new Date(),
-  };
-  return session_uuid;
-}
-function logoutUser(session_uuid: string) {
-  delete sessions[session_uuid];
-}
-
-app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.post("/add_food", (req, res) => {
-  const x: FoodLocationWithTime = req.body;
-  console.log("/add_food received", req.body);
-  x.time = new Date();
-  food_locations.push(x);
-  res.json(true);
-});
-
-function removeOldFoods() {
-  const curr_time = new Date();
-  curr_time.setHours(curr_time.getHours() + 4);
-  while (0 < food_locations.length && curr_time < food_locations[0].time) {
-    food_locations.shift();
+  function getLiveSession(session_uuid: any): Session | null {
+    return validateLiveSession(session_uuid) ? sessions[session_uuid] : null;
   }
-}
 
-app.get("/get_food", (req, res) => {
-  removeOldFoods();
-  res.json(food_locations);
-});
+  const food_repo = connection.getRepository(Food);
+  const user_repo = connection.getRepository(User);
+  
+  const app: express.Application = express();
+  app.use(express.json());
+  app.use("/static", express.static(path.join(__dirname, "../../static")));
+  app.use("/dist", express.static(path.join(__dirname, "../../dist")));
 
-app.use("/static", express.static(path.join(__dirname, "../../static")));
-app.use("/dist", express.static(path.join(__dirname, "../../dist")));
+  app.get("/", (req, res) => {
+    res.send("Hello World!");
+  });
 
-app.post("/login", (req, res) => {
-  if (typeof(req.body) === "object" && typeof(req.body.username) === "string" && typeof(req.body.password) === "string") {
-    const session_uuid = loginUser(req.body.username, req.body.password);
-    if (session_uuid !== null) {
-      res.cookie("session_uuid", session_uuid);
-      res.json(true);
+  app.post("/register", (req, res) => {
+    if (!common.validateUser(req.body)) { console.log(req.body); res.json(false); return; }
+    console.log(req.body);
+    const chkuser = user_repo.findOne({username: req.body.username});
+    const chkcompany = user_repo.findOne({business_name: req.body.business_name});
+    if (chkuser !== undefined || chkcompany !== undefined) {
+      res.json(false);
+      return;
     }
+    const user = new User();
+    user.username = req.body.username;
+    user.password = req.body.password;
+    user.business_name = req.body.business_name;
+    user.latitude = req.body.location.latitude;
+    user.longitude = req.body.location.longitude;
+    user_repo.save(user);
+    console.log("ahahahahh");
+    res.json(true);
+  });
+
+  app.post("/login", async (req, res) => {
+    if (!common.validateUserAndPass(req.body)) { res.json(false); return; }
+    const user = await user_repo.findOne({ username: req.body.username, password: req.body.password });
+    if (user === undefined) { res.json(false); return; }
+    const session_uuid = uuid();
+    res.cookie("session_uuid", session_uuid, {httpOnly:false});
+    res.json(true);
+  });
+
+  app.get("/logout", (req, res) => {
+    const session_uuid = req.cookies.session_uuid;
+    if (!validateLiveSession(session_uuid)) {
+      delete sessions[session_uuid];
+    }
+    res.sendStatus(200);
+  });
+
+  app.post("/food", (req, res) => {
+    if (! common.validateFoodLocation(req.body)) {
+      res.sendStatus(400);
+      return;
+    }
+    const session = getLiveSession(req.cookies.session_uuid);
+    if (session === null) {
+      res.sendStatus(403);
+      return;
+    }
+    // const user = user_repo.find({user: { id: session.user_id}});
+
+    const user = new User();
+    user.id = session.user_id;
+    const food = new Food()
+    food.user = user;
+    food.description = req.body.description;
+    food.image = req.body.image;
+    food.urgency = req.body.urgency;
+    food.end_time = new Date();
+    const URGENCY_HOURS = {
+      low: 4,
+      med: 2,
+      high: 1,
+    };
+    food.end_time.setHours(food.end_time.getHours() + URGENCY_HOURS[req.body.urgency]);
+    food_repo.save(food);
+    res.sendStatus(200);
+  });
+
+  function foodToFoodLocation(food: Food): common.FoodLocation {
+    return {
+      id: food.id,
+      business_name: food.user.business_name,
+      location: {
+        latitude: food.user.latitude,
+        longitude: food.user.longitude,
+      },
+      description: food.description,
+      urgency: food.urgency as common.Urgency,
+      image: food.image,
+    };
   }
-  res.json(false);
-});
 
-app.post("/register", (req, res) => {
-  if (typeof(req.body) === "object" && typeof(req.body.username) === "string" && typeof(req.body.password) == "string" &&
-    typeof(req.body.business_name) === "string" && typeof(req.body.address) === "string") {
-    res.json(registerUser(req.body));
-    return;
-  }
-  res.json(false);
-});
+  app.get("/food", async (req, res) => {
+    res.json((await food_repo.find({end_time: typeorm.MoreThan(new Date())})).map(foodToFoodLocation));
+  });
 
-app.get("/logout", (req, res) => {
-  logoutUser(req.cookies.session_uuid);
-});
+  app.get("/food/self", async (req, res) => {
+    const session = getLiveSession(req.cookies.session_uuid);
+    if (session === null) { res.sendStatus(404); return; }
+    const user = user_repo.findOne(session.user_id);
+    if (user === null) {
+      delete sessions[req.cookies.session_uuid];
+      res.sendStatus(404);
+      return;
+    }
+    res.json(
+      (await food_repo.find({user: { id: session.user_id }, end_time: typeorm.MoreThan(new Date())}))
+        .map(foodToFoodLocation)
+    );
+  });
 
-app.listen(8000, () => {
-  console.log("Example app listening on port 8000!");
-});
+  app.post("/food/cancel", async (req, res) => {
+    if (!common.validateFoodCancel(req.body)) { res.sendStatus(404); return; }
+    const f = await food_repo.findOne(req.body.id)
+    if (f === undefined) { res.sendStatus(404); return; }
+    await food_repo.remove(f);
+    res.sendStatus(200);
+  });
+
+  app.listen(8000, () => {
+    console.log("Example app listening on port 8000!");
+  });
+
+}).catch(error => console.log(error));
