@@ -44,6 +44,15 @@ class App extends React.Component<AppProps, AppState> {
             .some(([key]) => key === "session_uuid");
     }
 
+    setLoggedIn(signedIn: boolean) {
+        const content =
+            signedIn
+                ? "donate"
+                : "list";
+
+        this.setState({ signedIn, content });
+    }
+
     appNav() {
         if (this.state.signedIn) {
             return (
