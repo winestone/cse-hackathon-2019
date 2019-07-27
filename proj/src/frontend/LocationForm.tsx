@@ -1,9 +1,16 @@
 import React, { FormEvent } from "react";
 
 import * as common from "../common/common";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+
+
 
 class LocationForm extends React.Component {
-    constructor(props: any) {
+    constructor(props: {}) {
         super(props);
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,33 +45,58 @@ class LocationForm extends React.Component {
 
     render() {
         return (
-            <form
+            <Container>
+                <Row></Row>
+                <Row>
+                <Col></Col>
+                <Col id = "title">Donate</Col>
+                <Col></Col>
+                </Row>
+                <Row className = "rowForm">
+                    <Col></Col>
+                    <Col>
+            <Form
                 id="location"
                 onSubmit={this.handleSubmit}
             >
-                <label>
+                <Form.Group controlId = "name">
+                <Form.Label>
                     Company Name
                     <input
                         name="company-name"
                         type="text"
                     />
-                </label>
-                <label>
+                </Form.Label>
+
+                </Form.Group>
+
+                <Form.Group controlId = "address">
+                <Form.Label>
                     Company Address
                     <input
                         name="company-address"
                         type="text"
                     />
-                </label>
-                <label>
+                </Form.Label>
+                </Form.Group> 
+
+                <Form.Group controlId = "description" id = "form"> 
+                <Form.Label>
                     Donation Description
                     <input
                         name="description"
                         type="text"
                     />
-                </label>
-                <button>Submit</button>
-            </form>
+                </Form.Label>
+                </Form.Group>
+                <div id = "button">
+                <Button id = "submit">Submit</Button>
+                </div>
+            </Form>
+            </Col>
+            <Col> </Col>
+            </Row> 
+            </Container>
         );
     }
 }

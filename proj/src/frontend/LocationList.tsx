@@ -8,7 +8,7 @@ interface LocationListState {
 };
 
 class LocationList extends React.Component<{}, LocationListState> {
-    constructor(props) {
+    constructor(props: {}) {
         super(props);
 
         this.state = {

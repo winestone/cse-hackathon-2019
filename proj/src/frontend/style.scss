@@ -1,0 +1,21 @@
+$font-title: Helvetica, sans-serif; 
+$accent: #ff9e67;
+$primary: #4b96f3;
+$back: #242f3e;
+$green: #4db546;
+
+
+#title{
+    background-color:$accent;
+    color:white;
+}
+.rowForm{
+    color:$back;
+}
+
+#button{
+    display:inline-block;
+}
+#submit{
+    background-color:$accent;
+}
