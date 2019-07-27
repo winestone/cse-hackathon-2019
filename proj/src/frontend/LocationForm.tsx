@@ -90,7 +90,7 @@ class LocationForm extends React.Component {
                             </Form.Label>
                         </Form.Group>
                         <div id = "button">
-                        <Button id = "submit">Submit</Button>
+                        <Button id = "submit" type="submit">Submit</Button>
                         </div>
                     </Form>
                     </div>
