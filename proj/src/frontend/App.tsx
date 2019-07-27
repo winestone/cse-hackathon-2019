@@ -106,7 +106,9 @@ class App extends React.Component<AppProps, AppState> {
 
             case "signin":
                 return (
-                    <LoginForm />
+                    <LoginForm
+                        onSuccess={this.setLoggedIn.bind(this, true)}
+                    />
                 );
 
             case "signup":

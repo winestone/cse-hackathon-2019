@@ -2,12 +2,13 @@ import React, { FormEvent } from "react";
 import * as common from "../common/common";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 
-class LoginForm extends React.Component {
-    constructor(props: {}) {
+interface LoginFormProps {
+    onSuccess(): void;
+}
+
+class LoginForm extends React.Component<LoginFormProps> {
+    constructor(props: LoginFormProps) {
         super(props);
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,9 +40,9 @@ class LoginForm extends React.Component {
 
         const result = await response.json();
         if (result) {
-            //handleSuccess();
+            this.props.onSuccess();
         } else {
-            //handleFailure();
+            alert("Incorrect username/password combination.");
         }
     }
 
