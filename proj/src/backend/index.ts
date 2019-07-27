@@ -2,12 +2,26 @@
 import express from "express";
 import path from "path";
 import * as common from "../common/common"
+import { v4 as uuid } from "uuid"
 
 // Create a new express application instance
 const app: express.Application = express();
 
 type FoodLocationWithTime = common.AddFoodLocation & { time: Date };
+interface User {
+  username: string;
+  password: string;
+  business_name: string;
+  address: string;
+}
+interface Session {
+  session_uuid: string;
+  username: string;
+  session_start: Date;
+}
 
+const users_by_username: { [username: string]: User } = {};
+const sessions: { [session_uuid: string]: Session } = {};
 const food_locations: FoodLocationWithTime[] = [];
 
 app.use(express.json());
