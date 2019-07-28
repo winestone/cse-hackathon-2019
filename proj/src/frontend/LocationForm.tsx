@@ -59,6 +59,8 @@ class LocationForm extends React.Component<{}, LocationFormState> {
                         onSubmit={this.handleSubmit}
                     >
                         <Form.Group controlId="description" id="form">
+                        <div id = "userimg"><img src = "/static/images/dishcolour.png" id = "userimg" height = "40px"></img></div>
+
                             <Form.Control
                                 name="description"
                                 type="text"
