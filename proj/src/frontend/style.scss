@@ -33,17 +33,20 @@ $green: #4db546;
 
 aside {
     position: fixed;
-    max-height: 100%;
-    height: 100%;
-    overflow-y: auto;
+    max-height: 100vh;
     padding: 30px;
     top: 0px;
     right: 0px;
     max-width: 50%;
+    display: flex;
+    flex-direction: column;
 }
 
 aside nav {
     margin-bottom: 24px;
+}
+#app-body {
+    overflow-y: auto;
 }
 
 #nav-login{
