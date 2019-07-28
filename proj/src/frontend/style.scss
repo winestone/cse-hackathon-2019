@@ -31,7 +31,19 @@ $green: #4db546;
     align-content:center;
 }
 
-aside {
+#overlay-left {
+    position: fixed;
+    max-height: 100vh;
+    padding: 30px;
+    left: 0px;
+    right: 0px;
+    max-width: 50%;
+    img {
+        height: 50px;
+    }
+}
+
+#overlay-right {
     position: fixed;
     max-height: 100vh;
     padding: 30px;
@@ -40,13 +52,12 @@ aside {
     max-width: 50%;
     display: flex;
     flex-direction: column;
-}
-
-aside nav {
-    margin-bottom: 24px;
-}
-#app-body {
-    overflow-y: auto;
+    nav {
+        margin-bottom: 24px;
+    }
+    #app-body {
+        overflow-y: auto;
+    }
 }
 
 #nav-login{

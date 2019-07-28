@@ -197,16 +197,17 @@ class App extends React.Component<AppProps, AppState> {
         return (
             <main>
                 <LocationMap />
-                <aside>
+                <div id="overlay-left">
+                    <img src="/static/images/logo2.png"></img>
+                </div>
+                <div id="overlay-right">
                     <nav id="nav-login">
                         {this.appNav()}
                     </nav>
                     <div id="app-body">
                         {this.appBody()}
                     </div>
-
-                </aside>
-
+                </div>
             </main>
         );
     }

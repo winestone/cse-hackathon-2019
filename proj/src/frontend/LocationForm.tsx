@@ -7,16 +7,22 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+type LocationFormState = {
+    type: "initial"
+} | {
+    type: "submission_success"
+};
 
-class LocationForm extends React.Component {
+class LocationForm extends React.Component<{}, LocationFormState> {
     constructor(props: {}) {
         super(props);
-
+        this.state = { type: "initial" };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(event: FormEvent) {
+    async handleSubmit(event: FormEvent) {
         event.preventDefault();
+        this.setState({ type: "initial" });
 
         const form = document.getElementById("location") as HTMLFormElement;
         const formData = new FormData(form);
@@ -33,13 +39,14 @@ class LocationForm extends React.Component {
 
         console.log("DATA:", data);
 
-        fetch("/food", {
+        const response = await fetch("/food", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
         });
+        this.setState({ type: "submission_success" });
     }
 
     render() {
@@ -75,6 +82,8 @@ class LocationForm extends React.Component {
                         <div id="button">
                             <Button id="submit" className="btn btn-outline" type="submit">Submit</Button>
                         </div>
+
+                        <div>{this.state.type === "submission_success" ? "Success. Thank you for your donation! <3" : ""}</div>
                     </Form>
                 </div>
             </div>

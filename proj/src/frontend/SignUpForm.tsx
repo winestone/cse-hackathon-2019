@@ -7,10 +7,18 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-class SignUpForm extends React.Component {
+type SignUpFormState = {
+    type: "initial",
+} | {
+    type: "register_success",
+} | {
+    type: "register_failure",
+};
+
+class SignUpForm extends React.Component<{}, SignUpFormState> {
     constructor(props: {}) {
         super(props);
-
+        this.state = { type: "initial" };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -37,13 +45,28 @@ class SignUpForm extends React.Component {
 
         console.log("DATA:", data);
 
-        fetch("/register", {
+        this.setState({ type: "initial" });
+
+        const response = await fetch("/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
         });
+        const register_success: boolean = await response.json();
+        this.setState({ type:register_success ? "register_success" : "register_failure" });
+    }
+
+    submissionResult() {
+        switch (this.state.type) {
+            case "initial":
+                return <div></div>;
+            case "register_success":
+                return <div>Success</div>;
+            case "register_failure":
+                return <div>Failed</div>;
+        }
     }
 
     render() {
@@ -92,6 +115,7 @@ class SignUpForm extends React.Component {
                         <div id="button">
                             <Button id="submit" className="btn btn-outline" type="submit">Submit</Button>
                         </div>
+                        {this.submissionResult()}
                     </Form>
                 </div>
             </div>
