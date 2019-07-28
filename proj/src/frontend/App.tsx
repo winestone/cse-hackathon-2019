@@ -204,7 +204,9 @@ class App extends React.Component<AppProps, AppState> {
                     <div id="app-body">
                         {this.appBody()}
                     </div>
+
                 </aside>
+
             </main>
         );
     }

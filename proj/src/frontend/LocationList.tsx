@@ -16,7 +16,7 @@ class LocationList extends React.Component<LocationListProps, LocationListState>
     render() {
         switch (this.props.locs.type) {
             case "loading":
-                return <div>Loading...</div>;
+                return <div id = "loading">Loading...</div>;
             case "loaded":
                 if (0 < this.props.locs.food_locations.length) {
                     return (

@@ -10,4 +10,5 @@ import "./style.scss";
 ReactDOM.render(
     <App />,
     document.getElementById("example")
+
 );
