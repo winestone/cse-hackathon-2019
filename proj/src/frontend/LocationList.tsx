@@ -29,7 +29,7 @@ class LocationList extends React.Component<LocationListProps, LocationListState>
                         </ListGroup>
                     );
                 } else {
-                    return <div>No food :(</div>;
+                    return <div id = "loading">No food :(</div>;
                 }
         }
     }
