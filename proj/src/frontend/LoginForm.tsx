@@ -7,15 +7,23 @@ interface LoginFormProps {
     onSuccess(): void;
 }
 
-class LoginForm extends React.Component<LoginFormProps> {
+type LoginFormState = {
+    type: "initial",
+} | {
+    type: "login_failure",
+};
+
+class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     constructor(props: LoginFormProps) {
         super(props);
-
+        this.state = { type: "initial" };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     async handleSubmit(event: FormEvent) {
         event.preventDefault();
+
+        this.setState({ type: "initial" });
 
         const form = document.getElementById("login") as HTMLFormElement;
         const formData = new FormData(form);
@@ -38,11 +46,11 @@ class LoginForm extends React.Component<LoginFormProps> {
             body: JSON.stringify(data),
         });
 
-        const result = await response.json();
+        const result: boolean = await response.json();
         if (result) {
             this.props.onSuccess();
         } else {
-            alert("Incorrect username/password combination.");
+            this.setState({ type: "login_failure" });
         }
     }
 
@@ -70,6 +78,7 @@ class LoginForm extends React.Component<LoginFormProps> {
                             <Button id="submit" className="btn btn-outline" type="submit">Submit</Button>
                         </div>
 
+                        <div>{this.state.type === "login_failure" ? "Incorrect username/password combination." : ""}</div>
                     </Form>
                 </div>
 
